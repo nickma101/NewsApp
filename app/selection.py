@@ -3,8 +3,6 @@
 from elasticsearch import Elasticsearch
 from app import es
 from app.recommenders import recommender
-import random
-import json
 
 '''Here you define the input that determines which articles are selected and how'''
 
@@ -14,7 +12,10 @@ how_many = 20
 '''which topics should be selected'''
 topics = "politiek binnenland"
 
-'''What is the selection logic (see recommender file)?'''
+'''For number of articles to select see recommender file'''
+
+'''What is the selection logic (see recommender file)? Add the preferred method in line 38 (default: random_selection)'''
+
 recommender = recommender()
 
 class newsselector():
@@ -23,17 +24,15 @@ class newsselector():
 		self.topics = topics
 		self.recommender = recommender
 	'''Function that selects n articles according to the previously defined input'''	
-	'''Returns JSON object'''	
+	'''Returns list of dictionaries with meta-info per article'''	
 	def select_articles(self):
 		selected_articles = es.search(index='articles', body={
 			"size": how_many,
 			"sort":[{"date": {"order": "desc"}}],
 			'query': {'match': {'section': {"query": topics, "operator": "or"}}}})
-		return selected_articles
-	
-	def make_recommendations(self):
-		articles = self.select_articles()
+		nested_articles = selected_articles.get('hits', {}).get('hits')
+		articles = [e['_source'] for e in nested_articles]
 		return articles
-		#articles = artlices.get('hits',{}).get('hits',[""])
-		#return random.sample(artlices, 10)
-		#		articles = es.search(index="articles", body=body)['hits']['hits']
+		
+	def make_recommendations(self):
+		return recommender.random_selection(self.select_articles)
