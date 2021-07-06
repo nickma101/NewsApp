@@ -5,7 +5,7 @@ from elasticsearch import Elasticsearch
 
 es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
 
-class User(es.Model):
+class User():
     id = CharField()
     email = CharField(unique=True)
     password = CharField()

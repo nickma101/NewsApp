@@ -1,8 +1,8 @@
 from amcatclient import AmcatAPI
-from elasticsearch import Elasticsearch
+from app import es
 
-amcat = AmcatAPI("https://vu.amcat.nl", "nickmattis", "Nimima&95")
-es = Elasticsearch()
+amcat = AmcatAPI("https://vu.amcat.nl", "username", "password")
+es = es
 
 es.indices.delete("articles")
 es.indices.create("articles")
