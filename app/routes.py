@@ -10,3 +10,11 @@ newsselector = newsselector()
 @app.route('/homepage', methods= ['GET', 'POST'])
 def select_news():			
 	return newsselector.make_recommendations()
+
+@app.route('/random', methods= ['GET', 'POST'])
+def select_random_news():			
+	return newsselector.make_random_recommendations()
+
+@app.route('/recent', methods= ['GET', 'POST'])
+def select_recent_news():			
+	return newsselector.make_recent_recommendations()

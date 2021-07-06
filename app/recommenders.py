@@ -1,7 +1,7 @@
 from elasticsearch import Elasticsearch
 from app import es
+from flask import jsonify
 import random
-import json
 
 '''How many articles should be selected'''
 to_select = 10
@@ -14,9 +14,9 @@ class recommender():
 	def random_selection(self, select_articles):
 		articles = select_articles()
 		recommendations = random.sample(articles, to_select)
-		return json.dumps(recommendations)
+		return jsonify(recommendations)
 	
 	def most_recent(self, select_articles):
 		articles = select_articles()
 		recommendations = articles[:to_select]
-		return json.dumps(recommendations)
+		return jsonify(recommendations)

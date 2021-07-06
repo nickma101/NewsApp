@@ -14,8 +14,6 @@ topics = "politiek binnenland"
 
 '''For number of articles to select see recommender file'''
 
-'''What is the selection logic (see recommender file)? Add the preferred method in line 38 (default: random_selection)'''
-
 recommender = recommender()
 
 class newsselector():
@@ -33,6 +31,13 @@ class newsselector():
 		nested_articles = selected_articles.get('hits', {}).get('hits')
 		articles = [e['_source'] for e in nested_articles]
 		return articles
-		
+
 	def make_recommendations(self):
 		return recommender.random_selection(self.select_articles)
+
+	def make_random_recommendations(self):
+		return recommender.random_selection(self.select_articles)
+
+	def make_recent_recommendations(self):
+		return recommender.most_recent(self.select_articles)
+	
