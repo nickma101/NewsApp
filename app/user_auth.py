@@ -1,9 +1,7 @@
 import logging
 from itsdangerous import TimedJSONWebSignatureSerializer, SignatureExpired, BadSignature
 from peewee import Model, CharField
-from elasticsearch import Elasticsearch
-
-es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
+from app import es
 
 class User():
     id = CharField()
