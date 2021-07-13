@@ -1,8 +1,12 @@
 # Virtual Environment
 ve/
+venv/
 
 #Local file to add example data for development
-#add_new_amcatdata.py
+add_new_amcatdata1.py
+
+#Migrations
+migrations/
 
 #Pycache
 __pycache__/
