@@ -22,4 +22,15 @@ def select_random_news():
 @app.route('/recent', methods= ['GET', 'POST'])
 def select_recent_news():			
 	return newsselector.make_recent_recommendations()
-#to add: Post to user db
+
+@app.route("/users", methods=['POST'])
+def create_user():
+    """
+    Create a new user. Request body should be a json with username, email, and password
+    """
+    data = request.get_json(force=True)
+    if User.select().where(User.email == data['email']).exists():
+        return bad_request("User {} already exists".format(data['email']))
+    u = auth.create_user(username=data['username'], email=data['email'], password=data['password'])
+    return jsonify({"id": u.id, "email": u.email}), HTTPStatus.CREATED
+
