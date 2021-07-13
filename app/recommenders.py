@@ -1,5 +1,5 @@
 from elasticsearch import Elasticsearch
-from app import es
+from app import db
 from flask import jsonify
 import random
 

@@ -1,7 +1,8 @@
 from app import app
 from app.selection import newsselector
 from elasticsearch import Elasticsearch
-from app import es
+from app import db
+from flask import request
 
 newsselector = newsselector()
 
