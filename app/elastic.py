@@ -23,3 +23,10 @@ def upload_individual_article(id, metadata):
         db.index(index='articles', id=id, body=metadata)
     except:
         return {"message": "An error occurred uploading this article."}
+
+def upload_articles(list_of_articles):
+    for a in list_of_articles:
+        try:
+            db.index(index='articles', id=id, body=metadata)
+        except:
+            return {"message": "An error occurred uploading this article."}

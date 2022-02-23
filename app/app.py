@@ -20,7 +20,6 @@ class Article(Resource):
         help="This field cannot be left blank!"
     )
 
-
     def get(self, id):
         articles = db.search(index='articles')['hits']['hits']
         return {'article': next(filter(lambda x: x['_id'] == id, articles), None)}
@@ -32,7 +31,7 @@ class Article(Resource):
 
         data = Article.parser.parse_args()
 
-        article = {'id': id, 'metadata':{}}
+        article = {'id': data['id'], 'metadata':{}}
 
         try:
             upload_individual_article(article['id'], article['metadata'])
