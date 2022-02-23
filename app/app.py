@@ -9,7 +9,7 @@ app.secret_key = "youwillneverguess"
 api = Api(app)
 
 api.add_resource(Article, '/articles/<string:id>')
-api.add_resource(ArticleList, '/articles2')
+api.add_resource(ArticleList, '/articles')
 
 if __name__ == '__main__':
     app.run(debug=True)  # important to mention debug=True

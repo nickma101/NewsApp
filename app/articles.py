@@ -53,6 +53,12 @@ class Article(Resource):
             article.update(data)
         return article
 
+
 class ArticleList(Resource):
     def get(self):
-        return {'articleList': articles}
+        articles = db.search(index='articles', body={
+#			"sort":[{"date": {"order": "desc"}}]
+        })
+        articlelist = articles.get('hits', {}).get('hits')
+		#articles = [e['_source'] for e in nested_articles]
+        return articlelist
