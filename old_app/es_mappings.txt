@@ -1,0 +1,112 @@
+##Experiment db
+PUT /experiments
+{
+  "mappings": {
+    "properties": {
+      "id": {"type": "integer"},
+      "name": {"type": "keyword"},
+      "description": {"type": "text"},
+      "groups": {
+        "type": "nested",
+        "properties": {
+            "id": {"type": "integer"},
+            "name": {"type": "text"},
+            "description": {"type": "text"}
+      "authors": {
+        "type": "nested",
+        "properties": {
+            "name": {"type": "text"}
+        }
+      }
+    }
+  }
+}
+
+PUT /articles
+{
+  "mappings": {
+    "properties": {
+      "id": {"type": "integer"},
+      "experiment": {
+        "properties": {
+          "id": {"type": "integer"},
+          "name": {"type": "keyword"},
+          "Group": {"type": "keyword"}
+        }
+      },
+      "articleMetadata": {
+        "properties": {
+            "publicationdate": {"type": "date", "format": "dd-MM-yyyy HH:mm:ss"},
+            "author" : {"type": "text"},
+            "headline": {"type": "text"},
+            "teaser": {"type": "text"},
+            "text": {"type": "text"},
+            "image": {"type": "integer"},
+            "url": {"type": "text"}
+        }
+      },
+      "consumptionMetadata": {
+        "properties": {
+          "displays": {"type": "integer"},
+          "displaysArray": {"type": "nested"},
+          "selections": {"type": "integer"},
+          "selectionsArray": {"type": "nested"},
+          "reads": {"type": "integer"},
+          "readsArray": {"type": "nested"},
+          "Manipulations": {"type": "text"}
+        }
+      }
+    }
+  }
+}
+
+PUT /users
+{
+  "mappings": {
+    "properties": {
+      "id": {"type": "integer"},
+      "username": {"type": "text"},
+      "email": {"type": "keyword"},
+      "password": {"type": "text"},
+      "logins": {
+        "properties": {
+          "loginCounter": {"type": "integer"},
+          "loginsList": {"type": "nested"}
+        }
+      },
+       "logouts": {
+        "properties": {
+          "logoutCounter": {"type": "integer"},
+          "logoutsList": {"type": "nested"}
+        }
+       },
+      "displays": {
+        "properties": {
+            "displayedArticle": {"type": "integer"},
+            "displayedTime": {"type": "date", "format": "dd-MM-yyyy HH:mm:ss"},
+            "displayedExperiment": {"type": "integer"},
+            "displaysManipulations": {"type": "text"}
+        }
+      },
+      "selections": {
+        "properties": {
+            "selectedArticle": {"type": "integer"},
+            "selectedTime": {"type": "date", "format": "dd-MM-yyyy HH:mm:ss"},
+            "selectedExperiment": {"type": "integer"},
+            "selectedManipulations": {"type": "text"}
+        }
+      }
+    }
+  }
+}
+
+PUT experiments/_doc/1
+{
+  "id": 1,
+  "name": "test",
+  "description": "something",
+  "authors": [
+    {"name": "mary"},
+    {"name": "jane"}
+    ]
+}
