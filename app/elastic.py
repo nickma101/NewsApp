@@ -2,7 +2,7 @@
 Database: Initialisation & methods
 """
 
-from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch, helpers
 
 #initialise elasticsearch
 db = Elasticsearch([{'host': 'localhost', 'port': 9200}])
@@ -24,9 +24,32 @@ def upload_individual_article(id, metadata):
     except:
         return {"message": "An error occurred uploading this article."}
 
+#not tested
+#from: https://kb.objectrocket.com/elasticsearch/how-to-use-python-helpers-to-bulk-load-data-into-an-elasticsearch-index
 def upload_articles(list_of_articles):
     for a in list_of_articles:
         try:
             db.index(index='articles', id=id, body=metadata)
         except:
             return {"message": "An error occurred uploading this article."}
+
+def bulk_upload(json_file, _index, doc_type):
+
+    def bulk_json_data(json_file, _index, doc_type):
+        json_list = get_data_from_file(json_file)
+        for doc in json_list:
+            # use a `yield` generator so that the data isn't loaded into memory
+
+            if '{"index"' not in doc:
+                yield {
+                    "_index": _index,
+                    "_type": doc_type,
+                    "_id": uuid.uuid4(),
+                    "_source": doc
+                }
+    try:
+        # make the bulk call, and get a response
+        response = helpers.bulk(elastic, bulk_json_data("people.json", "employees", "people"))
+        print ("\nRESPONSE:", response)
+    except Exception as e:
+        print("\nERROR:", e)
