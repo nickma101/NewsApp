@@ -16,12 +16,14 @@ class Article(Resource):
         help="This field cannot be left blank!"
     )
 
+
     def get(self, id):
         articles = db.search(index='articles')['hits']['hits']
         return {'article': next(filter(lambda x: x['_id'] == id, articles), None)}
 
 
     def post(self, id):
+        articles = articledatabase['hits']['hits']
         if next(filter(lambda x: x['_id'] == id, articles), None):
             return {"message": "An item with id '{}' already exists.".format(id)}, 400
 
