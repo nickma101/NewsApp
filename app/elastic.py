@@ -24,15 +24,18 @@ def upload_individual_article(id, metadata):
     except:
         return {"message": "An error occurred uploading this article."}
 
-#not tested
-#from: https://kb.objectrocket.com/elasticsearch/how-to-use-python-helpers-to-bulk-load-data-into-an-elasticsearch-index
+#takes a list of articles and uploads them
 def upload_articles(list_of_articles):
     for a in list_of_articles:
+        id = a['id']
+        metadata = a['metadata']
         try:
             db.index(index='articles', id=id, body=metadata)
         except:
-            return {"message": "An error occurred uploading this article."}
+            return {"message": "An error occurred uploading these articles."}
 
+#not tested
+#from: https://kb.objectrocket.com/elasticsearch/how-to-use-python-helpers-to-bulk-load-data-into-an-elasticsearch-index
 def bulk_upload(json_file, _index, doc_type):
 
     def bulk_json_data(json_file, _index, doc_type):
