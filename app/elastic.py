@@ -23,7 +23,7 @@ else:
 
 
 """
-enables post requests for individual articles
+function that enables post requests for individual articles
 requires a unique article id and metadata in json format
 Metatdata must include: title, teaser, text, author, source, date, and experiment_id
 """
@@ -42,7 +42,9 @@ def upload_individual_article(id, metadata):
     except:
         return {"message": "An error occurred uploading this article."}
 
-#takes a list of articles and uploads them
+"""
+function that ...
+"""
 def upload_articles(list_of_articles):
     for a in list_of_articles:
         id = a['id']

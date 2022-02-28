@@ -9,8 +9,13 @@ app.config['PROPAGATE_EXCEPTIONS'] = True # To allow flask propagating exception
 app.secret_key = "youwillneverguess"
 api = Api(app)
 
+#api endpoints for articles, A list of all articles, and various Recommenders
+
+#takes get & post requests
 api.add_resource(Article, '/articles/<string:id>')
 api.add_resource(ArticleList, '/articles')
+
+#only takes get requests; recommender logic is defines in recommender.py
 api.add_resource(CustomRecommender, '/custom')
 api.add_resource(MostRecentRecommender, '/recent')
 api.add_resource(RandomRecommender, '/random')

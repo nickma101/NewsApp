@@ -1,12 +1,14 @@
 """
 Recommenders: Handling custom end-points for article api's
+Important: Customise to_select variable
 """
 from flask_restful import Resource, Api, reqparse
 from flask import jsonify
 from elastic import db, articledatabase
 
 """
-Define the number of recent articles that will be retrieved with the variable below
+Define the number of recent articles that will be initially retrieved before the
+recommenders are applied
 """
 to_select = 50
 
