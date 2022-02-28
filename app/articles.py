@@ -6,12 +6,16 @@ from flask import Flask, request, jsonify
 from flask_restful import Resource, Api, reqparse
 from elastic import db, articledatabase, upload_individual_article
 
-
 #a class for individual articles
 class Article(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('id',
         type=int,
+        required=True,
+        help="This field cannot be left blank!"
+    )
+    parser.add_argument('metadata',
+        type=dict,
         required=True,
         help="This field cannot be left blank!"
     )
@@ -23,13 +27,13 @@ class Article(Resource):
 
 
     def post(self, id):
-        articles = articledatabase['hits']['hits']
+        articles = db.search(index='articles')['hits']['hits']
         if next(filter(lambda x: x['_id'] == id, articles), None):
             return {"message": "An item with id '{}' already exists.".format(id)}, 400
 
         data = Article.parser.parse_args()
 
-        article = {'id': data['id'], 'metadata':{}}
+        article = {'id': data['id'], 'metadata': data['metadata']}
 
         try:
             upload_individual_article(article['id'], article['metadata'])

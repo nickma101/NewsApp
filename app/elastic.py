@@ -16,11 +16,21 @@ else:
 
 """
 enables post requests for individual articles
-requires a unique article id and any kind of metadate; e.g. in json format
+requires a unique article id and metadata in json format
+Metatdata must include: title, teaser, text, author, source, date, and experiment_id
 """
 def upload_individual_article(id, metadata):
     try:
-        db.index(index='articles', id=id, body=metadata)
+        doc = {
+            'title': metadata['title'],
+            'teaser': metadata['teaser'],
+            'text': metadata['text'],
+            'author': metadata['author'],
+            'source': metadata['source'],
+            'date': metadata['date'],
+            'experiment_id': metadata['experiment_id']
+        }
+        db.index(index='articles', id=id, body=doc)
     except:
         return {"message": "An error occurred uploading this article."}
 
