@@ -7,12 +7,20 @@ from elasticsearch import Elasticsearch, helpers
 #initialise elasticsearch
 db = Elasticsearch([{'host': 'localhost', 'port': 9200}])
 
-#retrieve articles
+#retrieve articles or create index if non-existent
 if db.indices.exists(index='articles') == True:
     articledatabase = db.search(index='articles')
 else:
     db.indices.create("articles")
     articledatabase = db.search(index='articles')
+
+#retrieve experiments or create index if non-existent
+if db.indices.exists(index='experiments') == True:
+    articledatabase = db.search(index='experiments')
+else:
+    db.indices.create("experiments")
+    articledatabase = db.search(index='experiments')
+
 
 """
 enables post requests for individual articles
@@ -43,6 +51,7 @@ def upload_articles(list_of_articles):
             db.index(index='articles', id=id, body=metadata)
         except:
             return {"message": "An error occurred uploading these articles."}
+
 
 #not tested
 #from: https://kb.objectrocket.com/elasticsearch/how-to-use-python-helpers-to-bulk-load-data-into-an-elasticsearch-index

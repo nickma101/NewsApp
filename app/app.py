@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 from flask_restful import Resource, Api, reqparse
 from articles import Article, ArticleList
 from recommender import CustomRecommender, MostRecentRecommender, RandomRecommender
-#from security import authenticate, identity
 
 
 app = Flask(__name__)
