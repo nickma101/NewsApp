@@ -32,7 +32,22 @@ class MostRecentRecommender(Resource):
         return jsonify(recommendations)
 
 class RandomRecommender(Resource):
-    pass
+    #parse argument: how many articles to recommend
+    parser = reqparse.RequestParser()
+    parser.add_argument('number',
+        type=int,
+        required=True,
+        help="This field cannot be left blank!"
+    )
+
+    def get(self, number):
+        data = Article.parser.parse_args()
+
+        articles = db.search(index='articles', body={
+            "size": data['number']})['hits']['hits']
+        return articles
+
+
 
 class CustomRecommender(Resource):
     pass
