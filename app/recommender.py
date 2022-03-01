@@ -1,53 +1,37 @@
 """
-Recommenders: Handling custom end-points for article api's
-Important: Customise to_select variable
+Handles the articles that are displayed to users
+- Retrieves articles from AmcatAPI
+- Retrives user data and experimental settings
+- Retrieves recommendation logic from recommender file
+- creates recommendations for NewsApp API
 """
-from flask_restful import Resource, Api, reqparse
-from flask import jsonify
-from elastic import db, articledatabase
+
+from amcatclient import AmcatAPI
+from experimental_settings import experimental_parameters
 
 """
-Define the number of recent articles that will be initially retrieved before the
-recommenders are applied
+1) Retriving articles (the stuff below will go into the config file)
 """
-to_select = 50
 
-class MostRecentRecommender(Resource):
-    #parse argument: how many articles to recommend
-    parser = reqparse.RequestParser()
-    parser.add_argument('number',
-        type=int,
-        required=True,
-        help="This field cannot be left blank!"
-    )
+amcat = AmcatAPI("https://vu.amcat.nl", "NickMattis")
 
-    #get request to retrieve x nost recent articles
-    def get(self, number):
-        data = Article.parser.parse_args()
+def retrieve_articles(parameters):
+    parameters = parameters
+    articles = []
+    for article in amcat.get_articles(project = parameters['project'],
+    articleset=parameters['articleset'],
+    start_date=parameters['start_date'],
+    columns=parameters['columns']):
+        articles.append(article)
+    return articles
 
-        articles = db.search(index='articles', body={
-            "size": data['number'],
-            "sort":[{"date": {"order": "desc"}}]}).get('hits', {}).get('hits')
-        recommendations = articles[:number]
-        return jsonify(recommendations)
+#or article in amcat.get_articles(project=69, articleset=2564, start_date="2021-03-09", columns=("date", "title", "publisher", "url", "text", "author", "section")):
 
-class RandomRecommender(Resource):
-    #parse argument: how many articles to recommend
-    parser = reqparse.RequestParser()
-    parser.add_argument('number',
-        type=int,
-        required=True,
-        help="This field cannot be left blank!"
-    )
+"""
+2) Retrieve user data and experimental settings
+"""
 
-    def get(self, number):
-        data = Article.parser.parse_args()
-
-        articles = db.search(index='articles', body={
-            "size": data['number']})['hits']['hits']
-        return articles
-
-
-
-class CustomRecommender(Resource):
-    pass
+"""
+Make recommendations
+"""
+recommendations = retrieve_articles(experimental_parameters)
