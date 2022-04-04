@@ -29,4 +29,6 @@ def get_articles(experiment_id, user_id):
 
 """
 2) Retrieve user data and experimental settings
+- articlesets can go into Amcat
+- how to add randomised nudging conditions?
 """
