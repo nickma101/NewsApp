@@ -1,0 +1,14 @@
+.date {
+    margin-bottom: 10px !important;
+    font-style: italic;
+}
+
+.title {
+    color: black !important;
+    font-size: 20px !important;
+    margin-bottom: 10px !important;
+}
+
+.text {
+    color: black !important;
+}

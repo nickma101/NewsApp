@@ -1,0 +1,11 @@
+.date {
+    text-indent: 30px;
+    font-style: italic;
+    color: black;
+}
+
+.title {
+    color: black !important;
+    font-size: 40px !important;
+    border-style: none!important;
+}

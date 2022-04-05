@@ -1,5 +1,6 @@
 import {React, useState} from 'react';
-import { Button, Header, Image, Modal } from 'semantic-ui-react'
+import { Button, Header, Image, Modal } from 'semantic-ui-react';
+import './ArticleDisplay.css';
 
 import PopularityNudge from './Nudges/PopularityNudge';
 import SelfActualisationNudge from './Nudges/SelfActualisationNudge';
@@ -17,17 +18,24 @@ function ArticleDisplay ({ article, trigger }) {
                 open={open}
                 trigger={trigger}
             >
+                <Modal.Header
+                    className = 'title'
+                >
+                    {article.title}
+                </Modal.Header>
+                <Modal.Description
+                    className = 'date'
+                >
+                    {article.date.substring(0,10)}
+                </Modal.Description>
                 <Modal.Content>
                     <Image
-                        fluid
-                    src={article.image_url} />
-                        <Modal.Header>
-                            {article.title}
-                        </Modal.Header>
-                        <Modal.Description>
-                            {article.date.substring(0,10)}
-                        </Modal.Description>
-                        {article.text}
+                        size= 'large'
+                        centered
+                        src={article.image_url}
+                        style={{ marginBottom: 30 }}
+                        />
+                    {article.text}
                 </Modal.Content>
             </Modal>
          )
