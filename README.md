@@ -1,4 +1,4 @@
 # NewsApp
-Developing a back-end for an experimental news platform.
+Developing an experimental news platform.
 
-Built on Flask and Elasticsearch.
+Built on Flask and React.
