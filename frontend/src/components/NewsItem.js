@@ -1,5 +1,6 @@
-import {Card, Image, Label, Segment} from "semantic-ui-react"
-import useState from'react';
+import {Card, Image, Label, Segment, Modal} from "semantic-ui-react"
+import ArticleDisplay from './ArticleDisplay';
+import useState from 'react';
 
 import PopularityNudge from './Nudges/PopularityNudge';
 import SelfActualisationNudge from './Nudges/SelfActualisationNudge';
@@ -7,8 +8,8 @@ import ModelCitizenNudge from './Nudges/ModelCitizenNudge';
 
 
 export default function NewsItem({ article }) {
-    return (
-        <Card fluid>
+
+    const card =     (<Card fluid>
              <Image
                 fluid
                 label={SelfActualisationNudge} //article.label with null and nudge terms or some if function to determine which nudge applies
@@ -25,6 +26,7 @@ export default function NewsItem({ article }) {
                 }
             </Card.Content>
         </Card>
-     )
+     );
+     return <ArticleDisplay article={article} trigger={card} />
 }
 

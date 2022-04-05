@@ -1,5 +1,6 @@
 import React from 'react';
 import NewsItem from './NewsItem';
+import ArticleDisplay from './ArticleDisplay';
 import { Grid } from "semantic-ui-react"
 
 const ArticleList = props => {
@@ -13,4 +14,3 @@ const ArticleList = props => {
   };
 
 export default ArticleList;
-
