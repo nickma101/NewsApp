@@ -16,16 +16,29 @@ import random
 amcat = AmcatAPI("https://vu.amcat.nl", "NickMattis")
 experiment_ids = [1, 2, 3, 4]
 
-
+"""
+Function that makes sure each article set is displayed consecutively 
+"""
 def select_article_set(user_id):
     exposures = []
-    # exposures = get_exposures(user_id) appends experiment ids to list
+    # exposures = get_article_set_exposures(user_id) appends experiment ids to list
+    #article_set = len(exposures)+1
+    #if article_set >5:
+    #    link to qualtrics
+    #else:
+    #    return article_set
+
+"""
+Function that assigns nudging conditions in randomised order
+"""
+def select_nudge(user_id):
+    exposures = []
+    # exposures = get_nudge_exposures(user_id) appends experiment ids to list
     conditions = []
-    for e in experiment_ids:
+    for e in nudge_ids:
         if e not in exposures:
             conditions.append(e)
     return random.choice(conditions)
-
 
 def get_articles(experiment_id, user_id):
     articles = []

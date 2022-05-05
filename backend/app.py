@@ -15,6 +15,7 @@ app.config['CORS_Headers'] = 'Content-Type'
 def get_recommendations():
     experiment_id = request.args.get('experiment_id')
     user_id = request.args.get('user_id')
+    #experiment_id = select_article_set(user_id)
     if not experiment_id:
         raise Exception("No experiment id given")
     return jsonify(recommender.get_articles(experiment_id, user_id))
