@@ -1,4 +1,3 @@
-import {Card, Image, Label, Segment, Modal} from "semantic-ui-react"
 import ArticleDisplay from './ArticleDisplay_Card';
 import useState from 'react';
 import './NewsItem.css';
@@ -6,6 +5,15 @@ import './NewsItem.css';
 import PopularityNudge from './Nudges/PopularityNudge';
 import SelfActualisationNudge from './Nudges/SelfActualisationNudge';
 import ModelCitizenNudge from './Nudges/ModelCitizenNudge';
+
+
+const getLabel = ( props ) => {
+  if (props === 'Current Affairs') {
+    return {SelfActualisationNudge};
+  } else {
+    return {PopularityNudge};
+  }
+}
 
 
 export default function NewsItem({ article }) {
@@ -16,7 +24,7 @@ export default function NewsItem({ article }) {
             <Image
                 fluid
                 label = {SelfActualisationNudge}
-                src={article.image_url} />
+            src={article.image_url} />
             <Card.Content
                 className = 'text'
             >

@@ -1,6 +1,6 @@
 import React from 'react';
 import NewsItem from './NewsItem';
-import ArticleDisplay from './ArticleDisplay';
+import ArticleDisplay from './ArticleDisplay_Card';
 import { Grid } from "semantic-ui-react"
 
 const ArticleList = props => {

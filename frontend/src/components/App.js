@@ -1,7 +1,7 @@
 import React from 'react';
 import useState from 'react';
 import ArticleList from './ArticleList';
-import ArticleDisplay from "./ArticleDisplay";
+import ArticleDisplay from "./ArticleDisplay_Card";
 import axios from 'axios';
 import { Container } from 'semantic-ui-react';
 

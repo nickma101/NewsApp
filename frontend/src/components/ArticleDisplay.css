@@ -1,23 +1,29 @@
 .date {
-    text-indent: 30px;
-    font-style: italic;
-    color: black;
+    text-indent: 30px !important;
+    font-style: italic !important;
+    color: black !important;
+    border-style: none !important;
 }
 
 .title {
     color: black !important;
-    font-size: 40px !important;
-    border-style: none!important;
+    font-size: 25px !important;
+    line-height: 1.2 !important;
+    border-style: none !important;
 }
 
 .teaser {
-    font-style: italic;
-    font-size: 22px !important;
-    color: black;
+    font-style: italic !important;
+    font-size: 18px !important;
+    color: black !important;
     margin-bottom: 20px;
 }
 
 .text {
     font-size: 18px !important;
     line-height: 1.6 !important;
+}
+
+.card {
+    width: 500px !important;
 }
