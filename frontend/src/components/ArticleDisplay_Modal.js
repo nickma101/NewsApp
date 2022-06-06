@@ -47,11 +47,6 @@ function ArticleDisplay ({ article, trigger }) {
                     {article.text}
                 </Modal.Content>
                 <Modal.Actions>
-                    <Rating
-                        icon = 'star'
-                        size = 'huge'
-                        defaultRating={0}
-                        maxRating={5} />
                 </Modal.Actions>
             </Modal>
          )

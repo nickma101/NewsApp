@@ -52,7 +52,7 @@ def get_articles(experiment_id, user_id):
     for article in amcat.get_articles(project=settings['project'],
                                       articleset=settings['amcat_article_set'],
                                       columns=settings['columns'],
-                                      articleSet=settings['articleSet']):
+                                      articleSet_int=settings['articleSet_int']):
         articles.append(article)
     random.shuffle(articles)
     return articles

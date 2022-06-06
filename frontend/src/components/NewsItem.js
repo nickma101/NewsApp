@@ -3,10 +3,18 @@ import ArticleDisplay from './ArticleDisplay';
 import useState from 'react';
 import './NewsItem.css';
 
-
 import PopularityNudge from './Nudges/PopularityNudge';
 import SelfActualisationNudge from './Nudges/SelfActualisationNudge';
 import ModelCitizenNudge from './Nudges/ModelCitizenNudge';
+
+
+const getLabel = ( props ) => {
+  if (props === 'Current Affairs') {
+    return {SelfActualisationNudge};
+  } else {
+    return {PopularityNudge};
+  }
+}
 
 
 export default function NewsItem({ article }) {
@@ -16,7 +24,7 @@ export default function NewsItem({ article }) {
             fluid>
             <Image
                 fluid
-                label={SelfActualisationNudge} //article.label with null and nudge terms or some if function to determine which nudge applies
+                label = {SelfActualisationNudge}
             src={article.image_url} />
             <Card.Content
                 className = 'text'
@@ -32,8 +40,8 @@ export default function NewsItem({ article }) {
                 >
                     {article.date.substring(0,10)}
                 </Card.Meta>
-                {article.text.length > 250 ?
-                    `${article.text.substring(0, 250)}...` : article.text
+                {article.teaser.length > 250 ?
+                    `${article.teaser.substring(0, 250)}...` : article.teaser
                 }
             </Card.Content>
         </Card>

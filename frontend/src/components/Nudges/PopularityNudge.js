@@ -1,7 +1,7 @@
 import React from 'react';
 
 const PopularityNudge = {
-                  color: 'teal',
+                  color: 'red',
                   content: 'Most Popular',
                   icon: 'heart',
                   ribbon: true,
