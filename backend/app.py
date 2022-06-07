@@ -4,9 +4,20 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 import recommender
+from database import User
+
+import os
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+class Config(object):
+    # ...
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 app.config['PROPAGATE_EXCEPTIONS'] = True  # To allow flask propagating exception even if debug is set to false on app
 app.secret_key = "youwillneverguess"
 
@@ -26,9 +37,8 @@ def get_recommendations():
 
 
 @app.route("/users", methods=["GET", "PUT"])
-def test():
-    return "test"
-#def add_user():
+def return_user():
+    return 'test'
 
 if __name__ == '__main__':
     app.run(debug=True)  # important to mention debug=True
