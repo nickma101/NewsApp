@@ -7,7 +7,7 @@ Handles the articles that are displayed to users
 """
 
 from amcatclient import AmcatAPI
-from experimental_settings import get_settings
+from app.experimental_settings import get_settings
 import random
 
 """

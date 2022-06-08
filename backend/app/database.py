@@ -1,9 +1,10 @@
 from app import db
 from datetime import datetime
 
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    selected_news = db.relationship('News_sel', backref = 'user', lazy = 'dynamic')
+    selected_news = db.relationship('NewsSelected', backref = 'user', lazy = 'dynamic')
 
 
     def __repr__(self):

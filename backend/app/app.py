@@ -1,19 +1,9 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-import recommender
-from database import User
-
-import os
-basedir = os.path.abspath(os.path.dirname(__file__))
-
-class Config(object):
-    # ...
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'app.db')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+from backend.app.app import recommender
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
@@ -39,6 +29,7 @@ def get_recommendations():
 @app.route("/users", methods=["GET", "PUT"])
 def return_user():
     return 'test'
+
 
 if __name__ == '__main__':
     app.run(debug=True)  # important to mention debug=True
