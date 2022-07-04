@@ -4,7 +4,7 @@ import ArticleList from './ArticleList';
 import ArticleDisplay from "./ArticleDisplay_Card";
 import axios from 'axios';
 import { Container } from 'semantic-ui-react';
-
+import { BrowserRouter, Link, Outlet, useRoutes } from 'react-router-dom';
 
 class App extends React.Component {
   state = { articles: [] };

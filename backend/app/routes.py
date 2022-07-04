@@ -14,3 +14,8 @@ def get_recommendations():
 @app.route("/users", methods=["GET", "PUT"])
 def return_user():
     return 'test'
+
+
+@app.route("/article", methods=["GET", "PUT"])
+def show_article():
+    return 'hooray'

@@ -1,6 +1,7 @@
 import {React, useState} from 'react';
 import { Rating, Button, Header, Image, Card } from 'semantic-ui-react';
 import './ArticleDisplay.css';
+import { useNavigate } from "react-router-dom";
 
 
 import PopularityNudge from './Nudges/PopularityNudge';
@@ -16,11 +17,18 @@ function ArticleDisplay ({ article }) {
       }
     }
 
+    let navigate = useNavigate();
+      const routeChange = () => {
+        let path = "article";
+        navigate(path);
+      };
+
     return (
             <Card
                 className='card'
                 centered
                 fluid
+                onClick={routeChange}
                 >
                 <Card.Header
                     className = 'title'
