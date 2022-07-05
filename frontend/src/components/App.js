@@ -9,8 +9,14 @@ import { BrowserRouter, Link, Outlet, useRoutes } from 'react-router-dom';
 class App extends React.Component {
   state = { articles: [] };
 
+  get_id() {
+     const params = new URLSearchParams(window.location.search);
+     return params.get('id');
+  }
+
     componentDidMount() {
-    axios.get('http://localhost:5000/recommendations?experiment_id=experiment1',)
+    const user_id = this.get_id()
+    axios.get('http://localhost:5000/recommendations', { params: { user_id }})
       .then(res => {
         const articles = res.data;
         this.setState({ articles });
@@ -18,6 +24,8 @@ class App extends React.Component {
    };
 
   render() {
+  const id = this.get_id();
+  if (id == null) return <div>Please provide an id </div>;
     return (
       <div className="Container" style={{ marginTop: '50px', marginLeft: '700px', marginRight:'700px' }}>
         <ArticleList articles={this.state.articles} />

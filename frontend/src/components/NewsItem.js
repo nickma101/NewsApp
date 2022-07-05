@@ -12,30 +12,39 @@ export default function NewsItem({ article }) {
 
     const card =     (
         <Card
-            fluid>
-            <Image
+                className='card'
+                centered
                 fluid
-                label = {SelfActualisationNudge}
-                src={article.image_url} />
-            <Card.Content
-                className = 'text'
-            >
+                >
                 <Card.Header
                     className = 'title'
                 >
                     {article.title}
                 </Card.Header>
-                <Card.Meta
+                <Card.Description
                     className = 'date'
                     textAlign = 'left'
                 >
                     {article.date.substring(0,10)}
-                </Card.Meta>
-                {article.teaser.length > 250 ?
-                    `${article.teaser.substring(0, 250)}...` : article.teaser
-                }
-            </Card.Content>
-        </Card>
+                </Card.Description>
+                <Card.Content
+                    className = 'text'
+                >
+                    <Image
+                        className= "img"
+                        size= 'large'
+                        centered
+                        src={article.image_url}
+                        style={{ marginBottom: 30 }}
+                        />
+                    <Card.Description
+                        className = 'teaser'
+                        textAlign = 'left'
+                    >
+                    {article.teaser}
+                    </Card.Description>
+                </Card.Content>
+            </Card>
      );
      return <ArticleDisplay article={article} trigger={card} />
 }

@@ -3,7 +3,9 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-from backend.app.app import recommender
+from backend.app import recommender
+from backend.app.database import ArticleSetsSeen
+
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
@@ -14,21 +16,6 @@ app.secret_key = "youwillneverguess"
 # to allow cross-domain access during development stage
 cors = CORS(app)
 app.config['CORS_Headers'] = 'Content-Type'
-
-
-@app.route("/recommendations", methods=["GET"])
-def get_recommendations():
-    experiment_id = request.args.get('experiment_id')
-    user_id = request.args.get('user_id')
-    #experiment_id = select_article_set(user_id)
-    if not experiment_id:
-        raise Exception("No experiment id given")
-    return jsonify(recommender.get_articles(experiment_id, user_id))
-
-
-@app.route("/users", methods=["GET", "PUT"])
-def return_user():
-    return 'test'
 
 
 if __name__ == '__main__':
