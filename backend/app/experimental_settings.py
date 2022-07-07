@@ -28,6 +28,5 @@ article_set4 = {"project": 122,
                             "id", "articleSet")}
 
 
-# add 3 other conditions
 def get_settings(name: str):
     return globals()[name]
