@@ -1,6 +1,8 @@
 """
 Define experimental settings as json dictionary (article retrieval & display)
 """
+
+
 article_set1 = {"project": 122,
                "amcat_article_set": 6113,
                "articleSet_int": 1,

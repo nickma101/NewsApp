@@ -1,14 +1,11 @@
+"""
+Define database model for SQLAlchemy
+"""
+
+
 from app import db
 from datetime import datetime
 
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    selected_news = db.relationship('NewsSelected', backref = 'user', lazy = 'dynamic')
-
-
-    def __repr__(self):
-        return '<User {}>'.format(self.id)
 
 '''
 DB for all articles that were selected (once a user selects an article it is added)
@@ -26,7 +23,6 @@ class NewsSelected(db.Model):
 '''
 DB for article sets that were seen by users (once a user rates an article the set he selected it from is added)
 '''
-
 class ArticleSetsSeen(db.Model):
     id = db.Column(db.String(50))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow, primary_key = True)
