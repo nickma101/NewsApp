@@ -67,3 +67,23 @@ def get_articles(experiment_id, user_id):
         articles.append(article)
     random.shuffle(articles)
     return articles
+
+
+""""
+Function that retrieves a single article
+"""
+def get_article():
+    #user_id = user_id
+    article_id = 41953440
+    articles = []
+    settings = get_settings('article_set1')
+    for article in amcat.get_articles(project=settings['project'],
+                                      articleset=settings['amcat_article_set'],
+                                      columns=settings['columns'],
+                                      articleSet_int=settings['articleSet_int']):
+        articles.append(article)
+    article = [a for a in articles if a['id'] == article_id]
+    if article:
+        return article
+    else:
+        return 'No article was found'

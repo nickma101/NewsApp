@@ -1,37 +1,21 @@
-import React from 'react';
-import useState from 'react';
-import ArticleList from './ArticleList';
-import ArticleDisplay from "./ArticleDisplay_Card";
-import axios from 'axios';
-import { Container } from 'semantic-ui-react';
-import { BrowserRouter, Link, Outlet, useRoutes } from 'react-router-dom';
+import React, {useState} from 'react';
+import Route from "./Route";
+import Recommender from "./Recommender";
+import Article from "./Article";
 
-class App extends React.Component {
-  state = { articles: [] };
 
-  get_id() {
-     const params = new URLSearchParams(window.location.search);
-     return params.get('id');
-  }
-
-    componentDidMount() {
-    const user_id = this.get_id()
-    axios.get('http://localhost:5000/recommendations', { params: { user_id }})
-      .then(res => {
-        const articles = res.data;
-        this.setState({ articles });
-      });
-   };
-
-  render() {
-  const id = this.get_id();
-  if (id == null) return <div>Please provide an id </div>;
-    return (
-      <div className="Container" style={{ marginTop: '50px', marginLeft: '700px', marginRight:'700px' }}>
-        <ArticleList articles={this.state.articles} />
-      </div>
-    );
-  };
-}
-
+const App = () => {
+  return (
+    <div>
+      <Recommender />
+      <Route path="/Recommender">
+        <Recommender/>
+      </Route>
+      <Article />
+      <Route path="/Article">
+        <Article/>
+      </Route>
+    </div>
+  );
+};
 export default App;

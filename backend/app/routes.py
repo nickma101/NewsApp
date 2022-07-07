@@ -17,15 +17,6 @@ def get_recommendations():
 
 
 @app.route('/article', methods=["GET"])
-def get_article():
-    user_id = request.args.get('user_id')
-    #article_id = 1
-    articles = []
-    #for article in amcat.get_articles(project=settings['project'],
-    #                                  columns=settings['columns']):
-    #    articles.append(article)
-    #for article in articles:
-    #    if article['id'] = article_id:
-    #        return article
-    #    else:
-    #        return "Non existing article id"
+def show_article():
+    #user_id = request.args.get('user_id')
+    return jsonify(recommender.get_article())
