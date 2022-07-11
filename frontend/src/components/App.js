@@ -5,17 +5,23 @@ import Article from "./Article";
 
 
 const App = () => {
+
+  const [selected, setSelected] = useState();
+
   return (
     <div>
-      <Recommender />
+      <Route path="/">
+        <Recommender />
+      </Route>
       <Route path="/Recommender">
-        <Recommender/>
+        <Recommender />
       </Route>
       <Article />
       <Route path="/Article">
-        <Article/>
+        <Article />
       </Route>
     </div>
   );
 };
+
 export default App;

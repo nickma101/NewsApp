@@ -1,0 +1,21 @@
+.date {
+    margin-bottom: 10px !important;
+    font-style: italic;
+}
+
+.title {
+    color: black !important;
+    font-size: 50px !important;
+    margin-bottom: 10px !important;
+}
+
+.text {
+    color: black !important;
+}
+
+.img {
+  height: auto;
+  max-height: 350px;
+  width: auto;
+  max-width: 350px;
+}

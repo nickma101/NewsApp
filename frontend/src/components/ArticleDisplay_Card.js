@@ -17,18 +17,12 @@ function ArticleDisplay ({ article }) {
       }
     }
 
-    let navigate = useNavigate();
-      const routeChange = () => {
-        let path = "article";
-        navigate(path);
-      };
 
     return (
             <Card
                 className='card'
                 centered
                 fluid
-                onClick={routeChange}
                 >
                 <Card.Header
                     className = 'title'

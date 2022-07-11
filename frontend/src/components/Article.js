@@ -1,35 +1,48 @@
-import React from 'react';
-import {Card, Image, Label } from "semantic-ui-react"
-import ArticleList from './ArticleList';
-import ArticleDisplay from "./ArticleDisplay_Card";
+import React,  { useState, useEffect } from 'react';
+import {Card, Image, Button } from "semantic-ui-react"
 import axios from 'axios';
+import './Article.css'
 
-class Article extends React.Component {
-  state = { articles: [] };
 
-  get_id() {
-     const params = new URLSearchParams(window.location.search);
-     return params.get('id');
-  }
+export default function Article() {
 
-    componentDidMount() {
-    const user_id = this.get_id()
-    axios.get('http://localhost:5000/article', { params: { user_id }})
-      .then(res => {
-        const articles = res.data;
-        this.setState({ articles });
-      });
-   };
+    const [data, setData] = useState({})
 
-  render() {
-  const id = this.get_id();
-  if (id == null) return <div>Please provide an id </div>;
-    return (
-      <div className="Container" style={{ marginTop: '50px', marginLeft: '700px', marginRight:'700px' }}>
-        <ArticleDisplay articles={this.state.articles} />
-      </div>
+    useEffect(() => {
+    axios.get('http://localhost:5000/article').then(res => setData(res.data[0]))
+    }, [])
+
+    const article = data
+
+    return(
+            <Card
+                className='card'
+                centered
+                fluid
+                >
+                <Card.Header
+                    className = 'title'
+                >
+                    {article.title}
+                </Card.Header>
+                <Card.Content
+                    className = 'text'
+                >
+                    <Image
+                        className= "img"
+                        size= 'large'
+                        centered
+                        src={article.image_url}
+                        style={{ marginBottom: 30 }}
+                        />
+                    <Card.Description
+                        className = 'teaser'
+                        textAlign = 'left'
+                    >
+                    {article.teaser}
+                    </Card.Description>
+                {article.text}
+                </Card.Content>
+            </Card>
     );
-  };
 }
-
-export default Article;
