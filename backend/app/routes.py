@@ -1,10 +1,17 @@
 from flask import request, jsonify
-from app import app, recommender
-from app import db
+from flask_cors import cross_origin
+from app import app, db
+from app import recommender
 from .database import ArticleSetsSeen, NewsSelected
 
 
+@app.route('/')
+def home():
+    return "test"
+
+
 @app.route('/recommendations', methods=["GET"])
+@cross_origin()
 def get_recommendations():
     user_id = request.args.get('user_id')
     experiment_id = recommender.select_article_set(user_id)
@@ -17,6 +24,7 @@ def get_recommendations():
 
 
 @app.route('/article', methods=["GET"])
+@cross_origin()
 def show_article():
-    #user_id = request.args.get('user_id')
+    # user_id = request.args.get('user_id')
     return jsonify(recommender.get_article())

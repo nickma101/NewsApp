@@ -9,7 +9,7 @@ import ModelCitizenNudge from './Nudges/ModelCitizenNudge';
 
 
 
-function ArticleDisplay ({ article, trigger }) {
+export default function ArticleDisplay ({ article, trigger }) {
     const [open, setOpen] = useState(false)
 
     return (
@@ -56,5 +56,3 @@ function ArticleDisplay ({ article, trigger }) {
             </Modal>
          )
       }
-
-export default ArticleDisplay

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import Route from "./Route";
-import Recommender from "./Recommender";
-import Article from "./Article";
+import Route from "./components/Route";
+import Recommender from "./components/Recommender";
+import Article from "./components/Article";
 
 
 const App = () => {
@@ -10,16 +10,20 @@ const App = () => {
 
   return (
     <div>
+      <h1> test </h1>
       <Route path="/">
         <Recommender />
       </Route>
-      <Route path="/Recommender">
+      <h1> test </h1>
+      <Route path="/Recommendations">
         <Recommender />
       </Route>
+      <h1> test </h1>
       <Article />
       <Route path="/Article">
         <Article />
       </Route>
+      <h1> test </h1>
     </div>
   );
 };
