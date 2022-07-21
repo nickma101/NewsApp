@@ -4,8 +4,5 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
-  document.querySelector('#root'),
+    <App />,  document.querySelector('#root'),
 );

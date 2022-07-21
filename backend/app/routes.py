@@ -12,7 +12,7 @@ def home():
 
 @app.route('/recommendations', methods=["GET"])
 @cross_origin()
-def get_recommendations():
+def get_recommendations2():
     user_id = request.args.get('user_id')
     experiment_id = recommender.select_article_set(user_id)
     if not experiment_id:

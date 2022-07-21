@@ -13,7 +13,6 @@ app.secret_key = "youwillneverguess"
 
 # to allow cross-domain access during development stage
 cors = CORS(app)
-app.config['CORS_Headers'] = 'Content-Type'
 
 
 if __name__ == '__main__':
