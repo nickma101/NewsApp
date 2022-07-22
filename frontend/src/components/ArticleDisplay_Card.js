@@ -17,12 +17,18 @@ function ArticleDisplay ({ article }) {
       }
     }
 
+    const navigate = useNavigate();
+
+    const navigateToArticle = () => {
+        navigate.push("/article")
+    }
 
     return (
             <Card
                 className='card'
                 centered
                 fluid
+                onClick={navigateToArticle}
                 >
                 <Card.Header
                     className = 'title'

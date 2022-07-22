@@ -46,6 +46,7 @@ export default function NewsItem({ article }) {
                 </Card.Content>
             </Card>
      );
+
      return <ArticleDisplay article={article} trigger={card} />
 }
 

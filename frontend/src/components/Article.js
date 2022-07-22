@@ -2,6 +2,7 @@ import React,  { useState, useEffect } from 'react';
 import {Card, Image, Rating } from "semantic-ui-react"
 import axios from 'axios';
 import './Article.css'
+import { useNavigate } from "react-router-dom";
 
 
 export default function Article () {
@@ -10,9 +11,20 @@ export default function Article () {
 
     useEffect(() => {
     axios.get('http://localhost:5000/article').then(res => setData(res.data[0]))
-    }, [])
+    }, )
 
     const article = data
+
+    function get_id() {
+     const params = new URLSearchParams(window.location.search);
+     return params.get('id');
+    }
+
+    let navigate = useNavigate()
+    function handleClick() {
+        const user_id = get_id();
+        navigate('/recommendations', { id: { user_id }})
+    }
 
     return(
             <Card
@@ -61,7 +73,7 @@ export default function Article () {
                 </Rating>
                 <button
                     className='button'
-                    onClick={()=>{ alert('alert'); }}>
+                    onClick={handleClick}>
                         Verder gaan
                     </button>
             </Card>
