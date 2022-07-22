@@ -1,17 +1,13 @@
-import {Card, Image, Label, Segment, Modal} from "semantic-ui-react"
-import ArticleDisplay from './ArticleDisplay_Card';
-import useState from 'react';
-import './NewsItem.css';
-
-import PopularityNudge from './Nudges/PopularityNudge';
-import SelfActualisationNudge from './Nudges/SelfActualisationNudge';
-import ModelCitizenNudge from './Nudges/ModelCitizenNudge';
+import React,  { useState, useEffect } from 'react';
+import {Card, Image, Rating } from "semantic-ui-react"
+import axios from 'axios';
+import './NewsItem.css'
+import { useNavigate } from "react-router-dom";
 
 
-export default function NewsItem({ article }) {
-
-    const card =     (
-        <Card
+export default function NewsItem ({ article }) {
+        return(
+            <Card
                 className='card'
                 centered
                 fluid
@@ -21,12 +17,6 @@ export default function NewsItem({ article }) {
                 >
                     {article.title}
                 </Card.Header>
-                <Card.Description
-                    className = 'date'
-                    textAlign = 'left'
-                >
-                    {article.date.substring(0,10)}
-                </Card.Description>
                 <Card.Content
                     className = 'text'
                 >
@@ -43,10 +33,28 @@ export default function NewsItem({ article }) {
                     >
                     {article.teaser}
                     </Card.Description>
+                {article.text}
                 </Card.Content>
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: '5vh',
+                    }}
+                >
+                    Beoordeel dit artikel op een schaal van 1 tot 5
+                </div>
+                <Rating
+                    className='rating'
+                    icon="star"
+                    defaultRating={0}
+                    maxRating={5}>
+                </Rating>
+                <button
+                    className='button'>
+                        Verder gaan
+                    </button>
             </Card>
-     );
-
-     return <ArticleDisplay article={article} trigger={card} />
+    );
 }
-

@@ -1,6 +1,5 @@
 import ArticleDisplay from './ArticleDisplay_Card';
 import useState from 'react';
-import './NewsItem.css';
 
 import PopularityNudge from './Nudges/PopularityNudge';
 import SelfActualisationNudge from './Nudges/SelfActualisationNudge';
@@ -16,7 +15,7 @@ const getLabel = ( props ) => {
 }
 
 
-export default function NewsItem({ article }) {
+export default function NewsItem_Modal ({ article }) {
 
     const card =     (
         <Card

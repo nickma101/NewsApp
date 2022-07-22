@@ -1,6 +1,6 @@
 import {React, useState} from 'react';
 import { Rating, Button, Header, Image, Card } from 'semantic-ui-react';
-import './ArticleDisplay.css';
+import './css/ArticleDisplay.css';
 import { useNavigate } from "react-router-dom";
 
 
@@ -9,7 +9,7 @@ import SelfActualisationNudge from './Nudges/SelfActualisationNudge';
 import ModelCitizenNudge from './Nudges/ModelCitizenNudge';
 
 
-function ArticleDisplay ({ article }) {
+export default function ArticleDisplay ({ article }) {
 
     const getLabel = ( article ) => {
       if (article.section === 'Current Affairs') {
@@ -61,5 +61,3 @@ function ArticleDisplay ({ article }) {
             </Card>
          )
       }
-
-export default ArticleDisplay

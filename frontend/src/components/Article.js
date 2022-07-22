@@ -1,7 +1,7 @@
 import React,  { useState, useEffect } from 'react';
 import {Card, Image, Rating } from "semantic-ui-react"
 import axios from 'axios';
-import './Article.css'
+import './css/Article.css'
 import { useNavigate } from "react-router-dom";
 
 
