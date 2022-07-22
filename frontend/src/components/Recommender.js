@@ -15,13 +15,14 @@ class Recommender extends React.Component {
   }
 
     componentDidMount() {
-    const user_id = this.get_id()
-    axios.get('http://localhost:5000/recommendations_2', { params: { user_id }})
-      .then(res => {
-        const articles = res.data;
-        this.setState({ articles });
-      });
-   };
+            const user_id = this.get_id()
+            axios.get('http://localhost:5000/recommendations', { params: { user_id }})
+                .then(res => {
+                    const articles = res.data;
+                    this.setState({ articles });
+                })
+                .catch(error => console.log(error));
+            };
 
   render() {
   const id = this.get_id();
