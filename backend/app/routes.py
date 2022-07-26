@@ -12,7 +12,7 @@ def home():
 
 @app.route('/recommendations', methods=["GET"])
 @cross_origin()
-def get_recommendations2():
+def get_recommendations():
     user_id = request.args.get('user_id')
     experiment_id = recommender.select_article_set(user_id)
     if not experiment_id:
@@ -26,5 +26,9 @@ def get_recommendations2():
 @app.route('/article', methods=["GET"])
 @cross_origin()
 def show_article():
-    # user_id = request.args.get('user_id')
-    return jsonify(recommender.get_article())
+    user_id = request.args.get('user_id')
+    if not user_id:
+        raise Exception("No user id given")
+    #article_id = request.args.get(article_id)
+    return jsonify(recommender.get_article(user_id))
+

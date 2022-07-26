@@ -78,8 +78,8 @@ Function that retrieves a single article
 """
 
 
-def get_article():
-    # user_id = user_id
+def get_article(user_id):
+    user_id = user_id
     article_id = 41953440
     articles = []
     settings = get_settings('article_set1')

@@ -2,28 +2,33 @@ import React,  { useState, useEffect } from 'react';
 import {Card, Image, Rating } from "semantic-ui-react"
 import axios from 'axios';
 import './css/Article.css'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, createSearchParams } from "react-router-dom";
 
 
 export default function Article () {
 
     const [data, setData] = useState({})
 
-    useEffect(() => {
-    axios.get('http://localhost:5000/article').then(res => setData(res.data[0]))
-    }, )
-
-    const article = data
-
     function get_id() {
      const params = new URLSearchParams(window.location.search);
+     console.log(params.get('id'))
      return params.get('id');
     }
 
-    let navigate = useNavigate()
-    function handleClick() {
+    useEffect(() => {
+    const user_id = get_id()
+    axios.get('http://localhost:5000/article', { params: { user_id }}).then(res => setData(res.data[0]))
+    }, [])
+
+    const article = data
+
+    const navigate = useNavigate()
+    function handleClick () {
         const user_id = get_id();
-        navigate('/recommendations', { id: { user_id }})
+        navigate({
+            pathname: "/recommendations/?id=",
+            search: `?${createSearchParams(user_id)}`,
+        });
     }
 
     return(

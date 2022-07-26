@@ -1,7 +1,7 @@
 import {React, useState} from 'react';
 import { Rating, Button, Header, Image, Card } from 'semantic-ui-react';
 import './css/ArticleDisplay.css';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, createSearchParams } from "react-router-dom";
 
 
 import PopularityNudge from './Nudges/PopularityNudge';
@@ -17,10 +17,20 @@ export default function ArticleDisplay ({ article }) {
       }
     }
 
-    const navigate = useNavigate();
+    const get_id = () => {
+     const params = new URLSearchParams(window.location.search);
+     console.log(params.get('id'))
+     return params.get('id');
+    }
+
+    const navigate = useNavigate()
 
     const navigateToArticle = () => {
-        navigate.push("/article")
+        const user_id = get_id();
+        navigate({
+            pathname: "/article/?id=",
+            search: `?${createSearchParams(user_id)}`,
+        });
     }
 
     return (
