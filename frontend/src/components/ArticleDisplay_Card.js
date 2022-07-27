@@ -19,17 +19,20 @@ export default function ArticleDisplay ({ article }) {
 
     const get_id = () => {
      const params = new URLSearchParams(window.location.search);
-     console.log(params.get('id'))
      return params.get('id');
+    }
+
+    const get_article_id = () => {
+        return article.id
     }
 
     const navigate = useNavigate()
 
-    const navigateToArticle = () => {
-        const user_id = get_id();
+    const navigateToArticle = (article) => {
+        const params = {id: get_id(), article_id: get_article_id()}
         navigate({
-            pathname: "/article/?id=",
-            search: `?${createSearchParams(user_id)}`,
+            pathname: "/article/",
+            search: `?${createSearchParams(params)}`,
         });
     }
 

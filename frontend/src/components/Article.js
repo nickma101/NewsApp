@@ -11,23 +11,28 @@ export default function Article () {
 
     function get_id() {
      const params = new URLSearchParams(window.location.search);
-     console.log(params.get('id'))
      return params.get('id');
     }
 
-    useEffect(() => {
-    const user_id = get_id()
-    axios.get('http://localhost:5000/article', { params: { user_id }}).then(res => setData(res.data[0]))
-    }, [])
+    function get_article_id() {
+     const params = new URLSearchParams(window.location.search);
+     return params.get('article_id');
+    }
 
     const article = data
 
+    useEffect(() => {
+    const user_id = get_id()
+    const article_id = get_article_id()
+    axios.get('http://localhost:5000/article', { params: { user_id, article_id }}).then(res => setData(res.data[0]))
+    }, [])
+
     const navigate = useNavigate()
     function handleClick () {
-        const user_id = get_id();
+        const params = {id: get_id()}
         navigate({
-            pathname: "/recommendations/?id=",
-            search: `?${createSearchParams(user_id)}`,
+            pathname: "/recommendations/",
+            search: `?${createSearchParams(params)}`,
         });
     }
 

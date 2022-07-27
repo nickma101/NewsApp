@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, redirect, url_for
 from flask_cors import cross_origin
 from app import app, db
 from app import recommender
@@ -29,6 +29,7 @@ def show_article():
     user_id = request.args.get('user_id')
     if not user_id:
         raise Exception("No user id given")
-    #article_id = request.args.get(article_id)
-    return jsonify(recommender.get_article(user_id))
-
+    article_id = request.args.get('article_id')
+    if not article_id:
+        raise Exception("No article id given")
+    return jsonify(recommender.get_article(user_id, article_id))

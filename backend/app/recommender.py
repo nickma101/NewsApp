@@ -73,16 +73,35 @@ def get_articles(experiment_id, user_id):
     return articles
 
 
+
+"""
+Function that retrieves most recent article set for a user. 
+Input: User_id
+Output: Random selection from article_sets that were not yet seen by a user
+"""
+
+
+def last_article_set(user_id):
+    exposures = list(ArticleSetsSeen.query.filter_by(user_id=user_id))
+    seen_ids = [exp.id for exp in exposures]
+    last_one = seen_ids[-1]
+    if not last_one:
+        return "Something isn't right here"
+    else:
+        return last_one
+
+
 """"
 Function that retrieves a single article
 """
 
 
-def get_article(user_id):
+def get_article(user_id, article_id):
     user_id = user_id
-    article_id = 41953440
+    article_set = last_article_set(user_id)
+    article_id = int(article_id)
     articles = []
-    settings = get_settings('article_set1')
+    settings = get_settings(article_set)
     for article in amcat.get_articles(project=settings['project'],
                                       articleset=settings['amcat_article_set'],
                                       columns=settings['columns'],
@@ -92,4 +111,4 @@ def get_article(user_id):
     if article:
         return article
     else:
-        return 'No article was found'
+        return "No article was found"
