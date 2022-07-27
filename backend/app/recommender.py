@@ -17,6 +17,7 @@ import random
 """
 amcat = AmcatAPI("https://vu.amcat.nl", "NickMattis")
 experiment_ids = ['article_set1', 'article_set2', 'article_set3', 'article_set4']
+nudge_ids = [1, 2, 3, 4]
 
 """
 Function that selects article set to be displayed to the user. 
@@ -44,14 +45,14 @@ Output: Random selection of nudges yet to be displayed to the user
 
 
 def select_nudge(user_id):
-    exposures = []
-    nudge_ids = []
-    # exposures = get_nudge_exposures(user_id) appends experiment ids to list
-    conditions = []
-    for e in nudge_ids:
-        if e not in exposures:
-            conditions.append(e)
-    return random.choice(conditions)
+    exposures = list(ArticleSetsSeen.query.filter_by(user_id=user_id))
+    seen_nudges = {exp.id for exp in exposures}
+    open_nudges = set(nudge_ids) - seen_nudges
+    if not open_nudges:
+        return "that's it, no more open sets"
+    else:
+        nudge = random.choice(list(open_nudges))
+        return nudge
 
 
 """

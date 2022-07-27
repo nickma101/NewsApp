@@ -19,7 +19,8 @@ class NewsSelected(db.Model):
     endtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     time_spent = db.Column(db.Interval)
     rating = db.Column(db.Numeric(2, 1), default=0)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer)
+    Nudge = db.Column(db.String(50))
 
 
 '''
@@ -30,4 +31,9 @@ DB for article sets that were seen by users (once a user rates an article the se
 class ArticleSetsSeen(db.Model):
     id = db.Column(db.String(50))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow, primary_key=True)
+    user_id = db.Column(db.Integer)
+
+
+class Nudges(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer)
