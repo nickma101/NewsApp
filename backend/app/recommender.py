@@ -77,7 +77,7 @@ def get_articles(experiment_id, user_id):
 """
 Function that retrieves most recent article set for a user. 
 Input: User_id
-Output: Random selection from article_sets that were not yet seen by a user
+Output: The last article set that a user saw
 """
 
 
@@ -93,6 +93,8 @@ def last_article_set(user_id):
 
 """"
 Function that retrieves a single article
+Input: User Id, Article Id
+Output: A specific article
 """
 
 
