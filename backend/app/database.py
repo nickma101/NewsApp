@@ -1,5 +1,5 @@
 """
-Define database model for SQLAlchemy
+Defines database model for SQLAlchemy
 """
 
 
@@ -34,6 +34,9 @@ class ArticleSetsSeen(db.Model):
     user_id = db.Column(db.Integer)
 
 
+'''
+DB for all nudges that were displayed to a user
+'''
 class Nudges(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer)

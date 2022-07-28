@@ -1,9 +1,9 @@
 """
 Handles the articles that are displayed to users
-- Retrieves articles from AmcatAPI with get articles
-- Retrives user data and experimental settings
-- Retrieves recommendation logic from recommender file
-- creates recommendations for NewsApp API
+- Retrieves article sets from AmcatAPI with get_articles()
+- Retrieves single articles from AmcatAPI with get_article()
+- Selects next nudge to be displayed to a user with select_nudge()
+- Selects next article set to be displayed to a user with select_article_set()
 """
 
 from app import db
@@ -12,12 +12,14 @@ from amcatclient import AmcatAPI
 from app.experimental_settings import get_settings
 import random
 
+
 """
 1) Retriving articles (the stuff below will go into the config file)
 """
 amcat = AmcatAPI("https://vu.amcat.nl", "NickMattis")
 experiment_ids = ['article_set1', 'article_set2', 'article_set3', 'article_set4']
 nudge_ids = [1, 2, 3, 4]
+
 
 """
 Function that selects article set to be displayed to the user. 

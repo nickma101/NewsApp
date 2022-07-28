@@ -1,3 +1,11 @@
+"""
+Handles the different routes that are necessary for the experiment: Backend API retrieval & database updates
+(the frontend is determined by the react app)
+- homepage to start the experiment
+- recommendation page for the different article_sets from which users choose
+- single article page where users can read and rate an article
+- Finish page that re-directs users back to Qualtrics
+"""
 from flask import request, jsonify, redirect, url_for
 from flask_cors import cross_origin
 from app import app, db
@@ -5,11 +13,17 @@ from app import recommender
 from .database import ArticleSetsSeen, NewsSelected, Nudges
 
 
+"""
+Homepage
+"""
 @app.route('/')
 def home():
     return "test"
 
 
+"""
+Recommendation page where article selection takes place
+"""
 @app.route('/recommendations', methods=["GET"])
 @cross_origin()
 def get_recommendations():
@@ -23,6 +37,9 @@ def get_recommendations():
     return jsonify(recommender.get_articles(experiment_id, user_id))
 
 
+"""
+Article page where users can read and rate articles
+"""
 @app.route('/article', methods=["GET"])
 @cross_origin()
 def show_article():
