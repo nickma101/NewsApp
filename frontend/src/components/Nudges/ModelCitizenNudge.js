@@ -1,8 +1,8 @@
 import React from 'react';
 
 const ModelCitizenNudge = {
-                  color: 'teal',
-                  content: '85% of readers have rated this as important to know about',
+                  color: 'red',
+                  content: '85% van de lezers vindt dit belangrijk om te weten',
                   icon: 'exclamation circle',
                   ribbon: true,
                   size: 'large'

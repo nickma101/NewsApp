@@ -1,4 +1,9 @@
-import {React, useState} from 'react';
+/*
+    Article Display component that fetches nudge_id from backend and determines the layout of the individual cards
+    that are displayed in the Article List
+*/
+import {React, useState, useEffect } from 'react';
+import axios from 'axios';
 import { Rating, Button, Header, Image, Card } from 'semantic-ui-react';
 import './css/ArticleDisplay.css';
 import { useNavigate, createSearchParams } from "react-router-dom";
@@ -11,16 +16,43 @@ import ModelCitizenNudge from './Nudges/ModelCitizenNudge';
 
 export default function ArticleDisplay ({ article }) {
 
-    const getLabel = ( article ) => {
-      if (article.section === 'Current Affairs') {
-        return PopularityNudge;
-      }
+    const [data, setData] = useState({})
+
+    //getting user id from url
+    const get_id = () => {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('id');
     }
 
-    const get_id = () => {
-     const params = new URLSearchParams(window.location.search);
-     return params.get('id');
+    //retrieving the nudge id as determined by the backend (see routes.py & recommender.py)
+    useEffect(() => {
+        const user_id = get_id()
+        if (article.section === 'Current Affairs') {
+            axios.get('http://localhost:5000/label', { params: { user_id }}).then(res => setData(res.data))
+        }
+    }, [])
+
+    //nudge_id determined by the flask backend through function above
+    const the_nudge_id = data
+
+    //linking nudge_ids as sent by the backend to the nudge components
+    const getLabel = ( article ) => {
+        let nudge = null
+        if (article.section === 'Current Affairs') {
+            const nudge_id = the_nudge_id
+            if (nudge_id === 1) {
+                    nudge = PopularityNudge
+                } else if (nudge_id === 2) {
+                    nudge = SelfActualisationNudge
+                } else if (nudge_id === 3) {
+                    nudge = ModelCitizenNudge
+                } else {
+                    nudge = null
+                }
+        }
+        return nudge;
     }
+
 
     const get_article_id = () => {
         return article.id
@@ -28,6 +60,7 @@ export default function ArticleDisplay ({ article }) {
 
     const navigate = useNavigate()
 
+    //on-click function to navigate to a selected article
     const navigateToArticle = (article) => {
         const params = {id: get_id(), article_id: get_article_id()}
         navigate({
@@ -72,5 +105,5 @@ export default function ArticleDisplay ({ article }) {
                     </Card.Description>
                 </Card.Content>
             </Card>
-         )
-      }
+    )
+}

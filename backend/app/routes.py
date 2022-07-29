@@ -56,6 +56,9 @@ def show_article():
     return jsonify(recommender.get_article(user_id, article_id))
 
 
+"""
+Api to determine the next label to be displayed to a user
+"""
 @app.route('/label', methods=["GET"])
 @cross_origin()
 def select_label():
@@ -66,6 +69,6 @@ def select_label():
     nudge = Nudges(id=label, user_id=user_id)
     db.session.add(nudge)
     db.session.commit()
-    return label
+    return jsonify(label)
 
 

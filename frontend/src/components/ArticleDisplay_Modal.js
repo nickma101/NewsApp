@@ -1,3 +1,8 @@
+/*
+    Article Display component that shows articles as modals
+    Currently not in use!
+*/
+
 import {React, useState} from 'react';
 import { Rating, Button, Header, Image, Modal } from 'semantic-ui-react';
 import './ArticleDisplay.css';
@@ -5,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import PopularityNudge from './Nudges/PopularityNudge';
 import SelfActualisationNudge from './Nudges/SelfActualisationNudge';
 import ModelCitizenNudge from './Nudges/ModelCitizenNudge';
-
 
 
 export default function ArticleDisplay ({ article, trigger }) {

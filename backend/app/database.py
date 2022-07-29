@@ -37,6 +37,9 @@ class ArticleSetsSeen(db.Model):
 '''
 DB for all nudges that were displayed to a user
 '''
+
+
 class Nudges(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow, primary_key=True)
     user_id = db.Column(db.Integer)

@@ -6,17 +6,17 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = () => {
 
-  const [selected, setSelected] = useState();
+    const [selected, setSelected] = useState();
 
-  return (
-     <BrowserRouter>
-         <Routes>
+    return (
+        <BrowserRouter>
+            <Routes>
                <Route path="/" element={<Recommender />} />
                <Route path="/recommendations" element={<Recommender />} />
                <Route path="/article" element={<Article />} />
-         </Routes>
-     </BrowserRouter>
-  );
+            </Routes>
+        </BrowserRouter>
+    );
 };
 
 export default App;

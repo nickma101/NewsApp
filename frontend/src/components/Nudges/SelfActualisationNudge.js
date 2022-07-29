@@ -2,7 +2,7 @@ import React from 'react';
 
 const SelfActualisationNudge = {
                   color: 'red',
-                  content: 'Reading this article will make you a better informed citizen',
+                  content: 'Door dit artikel te lezen zult u een beter geïnformeerde burger worden',
                   icon: 'newspaper',
                   ribbon: true,
                   size: 'large'

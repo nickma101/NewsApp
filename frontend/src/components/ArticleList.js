@@ -1,15 +1,19 @@
+/*
+    Article List compomemt that returns the list of articles for the recommender class
+*/
+
 import React from 'react';
 import ArticleDisplay from './ArticleDisplay_Card';
 import { Grid } from "semantic-ui-react"
 
 const ArticleList = props => {
-  const articles = props.articles.map((article) => {
-    return <ArticleDisplay article={article} key={article.id} />
-  });
+    const articles = props.articles.map((article) => {
+        return <ArticleDisplay article={article} key={article.id} />
+    });
 
-  return <Grid centered verticalAlign='middle'>
+    return <Grid centered verticalAlign='middle'>
             {articles}
-         </Grid>
-  };
+        </Grid>
+    };
 
 export default ArticleList;

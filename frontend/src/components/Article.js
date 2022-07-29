@@ -1,3 +1,6 @@
+/*
+    Article  component that fetches the article a user selected and displays it to the user
+*/
 import React,  { useState, useEffect } from 'react';
 import {Card, Image, Rating } from "semantic-ui-react"
 import axios from 'axios';
@@ -9,11 +12,13 @@ export default function Article () {
 
     const [data, setData] = useState({})
 
+    //getting the user id from the url
     function get_id() {
      const params = new URLSearchParams(window.location.search);
      return params.get('id');
     }
 
+    //getting article id from url
     function get_article_id() {
      const params = new URLSearchParams(window.location.search);
      return params.get('article_id');
@@ -21,12 +26,14 @@ export default function Article () {
 
     const article = data
 
+    //retrieving an individual article from API
     useEffect(() => {
     const user_id = get_id()
     const article_id = get_article_id()
     axios.get('http://localhost:5000/article', { params: { user_id, article_id }}).then(res => setData(res.data[0]))
     }, [])
 
+    //on-click function for navigating to the next set of recommendations
     const navigate = useNavigate()
     function handleClick () {
         const params = {id: get_id()}
@@ -36,6 +43,7 @@ export default function Article () {
         });
     }
 
+    //article display
     return(
             <Card
                 className='card'
