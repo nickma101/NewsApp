@@ -11,6 +11,8 @@ import { useNavigate, createSearchParams } from "react-router-dom";
 export default function Article () {
 
     const [data, setData] = useState({})
+    const [rounds, setRounds] = useState({})
+
 
     //getting the user id from the url
     function get_id() {
@@ -33,14 +35,29 @@ export default function Article () {
     axios.get('http://localhost:5000/article', { params: { user_id, article_id }}).then(res => setData(res.data[0]))
     }, [])
 
+    const rounds_left = rounds
+
+    //retrieving left open rounds from APU
+    useEffect(() => {
+    const user_id = get_id()
+    axios.get('http://localhost:5000/finish', { params: { user_id }}).then(res => setRounds(res.data))
+    }, [])
+
     //on-click function for navigating to the next set of recommendations
     const navigate = useNavigate()
     function handleClick () {
         const params = {id: get_id()}
-        navigate({
-            pathname: "/recommendations/",
-            search: `?${createSearchParams(params)}`,
-        });
+        if (rounds_left === 1) {
+            navigate({
+                pathname: "/recommendations/",
+                search: `?${createSearchParams(params)}`,
+            });
+        } else {
+            navigate({
+                pathname: "/finish/",
+                search: `?${createSearchParams(params)}`,
+            });
+        }
     }
 
     //article display

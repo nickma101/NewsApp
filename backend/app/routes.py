@@ -72,3 +72,23 @@ def select_label():
     return jsonify(label)
 
 
+"""
+Api to determine whether users are finished
+"""
+@app.route('/finish', methods=["GET"])
+@cross_origin()
+def rounds_left():
+    user_id = request.args.get('user_id')
+    if not user_id:
+        raise Exception("No user id given")
+    exposures = list(ArticleSetsSeen.query.filter_by(user_id=user_id))
+    seen_ids = {exp.id for exp in exposures}
+    open_sets = set(recommender.experiment_ids) - seen_ids
+    if not open_sets:
+        print('no more sets')
+        return jsonify(0)
+    else:
+        print('still more sets')
+        return jsonify(1)
+
+

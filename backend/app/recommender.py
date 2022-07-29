@@ -33,7 +33,7 @@ def select_article_set(user_id):
     seen_ids = {exp.id for exp in exposures}
     open_sets = set(experiment_ids) - seen_ids
     if not open_sets:
-        return "that's it, no more open sets"
+        return 101
     else:
         experiment_id = random.choice(list(open_sets))
         return experiment_id

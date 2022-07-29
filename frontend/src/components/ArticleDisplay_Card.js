@@ -8,7 +8,6 @@ import { Rating, Button, Header, Image, Card } from 'semantic-ui-react';
 import './css/ArticleDisplay.css';
 import { useNavigate, createSearchParams } from "react-router-dom";
 
-
 import PopularityNudge from './Nudges/PopularityNudge';
 import SelfActualisationNudge from './Nudges/SelfActualisationNudge';
 import ModelCitizenNudge from './Nudges/ModelCitizenNudge';

@@ -13,9 +13,9 @@ DB for all articles that were selected (once a user selects an article it is add
 
 
 class NewsSelected(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer)
     title = db.Column(db.String(500))
-    starttime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    starttime = db.Column(db.DateTime, index=True, default=datetime.utcnow, primary_key=True)
     endtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     time_spent = db.Column(db.Interval)
     rating = db.Column(db.Numeric(2, 1), default=0)
