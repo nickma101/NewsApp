@@ -8,11 +8,27 @@ import './css/Article.css'
 import { useNavigate, createSearchParams } from "react-router-dom";
 
 
-export default function Article () {
+export default function Article ( {navigation} ) {
+
+    useEffect(() => {
+        window.addEventListener('beforeunload', alertUser)
+        return () => {
+            window.removeEventListener('beforeunload', alertUser)
+        }
+    }, [])
+
+    window.addEventListener('popstate', (event) => {
+        alert("You cannot go backwards");
+    }, []);
+
+    function alertUser (e) {
+        e.preventDefault()
+        e.returnValue = ''
+    }
 
     const [data, setData] = useState({})
     const [rounds, setRounds] = useState({})
-    const [rating, updateRating] = useState(0)
+    const [rating, updateRating] = useState()
 
     const article = data
 
@@ -52,7 +68,7 @@ export default function Article () {
     //on-click function for navigating to the next set of recommendations
     const navigate = useNavigate()
     function handleClick () {
-        const params = {id: get_id()}
+        const params = {id: get_id(), article_id: get_article_id(), rating: rating}
         if (rounds_left === 1) {
             navigate({
                 pathname: "/recommendations/",
