@@ -8,11 +8,11 @@ import ArticleList from './ArticleList';
 import axios from 'axios';
 import { Container } from 'semantic-ui-react';
 
-
 class Recommender extends React.Component {
 
     state = { articles: [] };
 
+        //retrieve relevant params from url
         get_id() {
             const params = new URLSearchParams(window.location.search);
             return params.get('id');
@@ -28,7 +28,14 @@ class Recommender extends React.Component {
             return params.get('rating');
         }
 
+        onUnload = e => {
+            e.preventDefault();
+            e.returnValue = '';
+        };
+
+        //retrieve recommended article from backend and warn users before leaving the page with this.onload
         componentDidMount() {
+            window.addEventListener("beforeunload", this.onUnload);
             const user_id = this.get_id()
             const article_id = this.get_article_id()
             const rating = this.get_rating()
@@ -39,6 +46,14 @@ class Recommender extends React.Component {
                     })
                 .catch(error => console.log(error));
         };
+
+        //prevent users from using the browsers' 'go back' button
+        componentDidUpdate() {
+          window.history.pushState(null, document.title, window.location.href);
+          window.addEventListener('popstate', function(event) {
+            window.history.pushState(null, document.title, window.location.href);
+          });
+        }
 
         render() {
             const id = this.get_id();

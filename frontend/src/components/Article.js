@@ -7,9 +7,15 @@ import axios from 'axios';
 import './css/Article.css'
 import { useNavigate, createSearchParams } from "react-router-dom";
 
-
 export default function Article ( {navigation} ) {
 
+    const [data, setData] = useState({})
+    const [rounds, setRounds] = useState({})
+    const [rating, updateRating] = useState()
+
+    const article = data
+
+    //ask user to stay on page when they refresh
     useEffect(() => {
         window.addEventListener('beforeunload', alertUser)
         return () => {
@@ -17,20 +23,19 @@ export default function Article ( {navigation} ) {
         }
     }, [])
 
-    window.addEventListener('popstate', (event) => {
-        alert("You cannot go backwards");
-    }, []);
-
     function alertUser (e) {
         e.preventDefault()
         e.returnValue = ''
     }
 
-    const [data, setData] = useState({})
-    const [rounds, setRounds] = useState({})
-    const [rating, updateRating] = useState()
+    //prevent users from using the browsers' 'go back' button
+        useEffect(() => {
+        window.history.pushState(null, document.title, window.location.href);
+        window.addEventListener('popstate', function(event) {
+        window.history.pushState(null, document.title, window.location.href);
+        });
+    })
 
-    const article = data
 
     //getting the user id from the url
     function get_id() {
@@ -67,18 +72,23 @@ export default function Article ( {navigation} ) {
 
     //on-click function for navigating to the next set of recommendations
     const navigate = useNavigate()
-    function handleClick () {
+    function handleClick (e) {
         const params = {id: get_id(), article_id: get_article_id(), rating: rating}
-        if (rounds_left === 1) {
-            navigate({
-                pathname: "/recommendations/",
-                search: `?${createSearchParams(params)}`,
-            });
+        if (rating === undefined) {
+                alert('Vergeet niet het artikel te beoordelen')
+                e.preventDefault();
         } else {
-            navigate({
-                pathname: "/finish/",
-                search: `?${createSearchParams(params)}`,
-            });
+            if (rounds_left === 1) {
+                navigate({
+                    pathname: "/recommendations/",
+                    search: `?${createSearchParams(params)}`,
+                });
+            } else {
+                navigate({
+                    pathname: "/finish/",
+                    search: `?${createSearchParams(params)}`,
+                });
+            }
         }
     }
 
