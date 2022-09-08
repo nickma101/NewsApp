@@ -104,6 +104,12 @@ export default function Article ( {navigation} ) {
                 >
                     {article.title}
                 </Card.Header>
+                <Card.Description
+                    className = 'date'
+                    textAlign = 'left'
+                >
+                    {article.date}
+                </Card.Description>
                 <Card.Content
                     className = 'text'
                 >
@@ -130,7 +136,7 @@ export default function Article ( {navigation} ) {
                         height: '5vh',
                     }}
                 >
-                    Beoordeel dit artikel op een schaal van 1 tot 5
+                    <h3>Beoordeel dit artikel op een schaal van 1 tot 5</h3>
                 </div>
                 <Rating
                     className='rating'

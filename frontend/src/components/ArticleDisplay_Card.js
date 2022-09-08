@@ -76,7 +76,7 @@ export default function ArticleDisplay ({ article }) {
                 onClick={navigateToArticle}
                 >
                 <Card.Header
-                    className = 'title'
+                    className = 'title_custom'
                 >
                     {article.title}
                 </Card.Header>
