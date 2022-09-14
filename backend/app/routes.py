@@ -10,7 +10,7 @@ from flask import request, jsonify, redirect, url_for
 from flask_cors import cross_origin
 from app import app, db
 from app import recommender
-from .database import Exposures, Selections, Ratings, ArticleList
+from .database import Exposures, Selections, Ratings, ArticleList, Nudges
 from datetime import datetime
 import random
 
@@ -29,24 +29,32 @@ Recommendation page where article selection takes place
 @app.route('/recommendations', methods=["GET"])
 @cross_origin()
 def get_recommendations():
+    # getting parameters
     user_id = request.args.get('user_id')
-    experiment_id = recommender.select_article_set(user_id)
     timestamp = datetime.utcnow()
-    exposures = list(Exposures.query.filter_by(user_id=user_id))
-    no_of_previous_sets = len([exp.article_set_id for exp in exposures])
-    nudge = ''
     article_id = request.args.get('article_id')
     rating = request.args.get('rating')
+    #call recommender functions
+    experiment_id = recommender.select_article_set(user_id)
     if not experiment_id:
         raise Exception("No experiment id given")
+    nudge = recommender.select_nudge(user_id)
+    nudge_id = int(nudge)
+    print(nudge, nudge_id)
+    nudge = Nudges(id=nudge_id, user_id=user_id, primary="{}/{}/{}".format(user_id, "label" + str(nudge_id), timestamp))
+    db.session.add(nudge)
+    #retrieve and log articles
     articles = recommender.get_articles(experiment_id, user_id)
     random.shuffle(articles)
     exposures = Exposures(article_set_id=experiment_id,
                                         user_id=user_id,
                                         timestamp=timestamp,
-                                        nudge_id=nudge,
+                                        nudge_id=nudge_id,
                                         exposure_id="{}/{}/{}".format(user_id, experiment_id, str(timestamp)))
     db.session.add(exposures)
+    #determine the number of previous sets to avoid logging empty ratings
+    exposures = list(Exposures.query.filter_by(user_id=user_id))
+    no_of_previous_sets = len([exp.article_set_id for exp in exposures])
     if no_of_previous_sets >0:
         ratings = Ratings(article_id=article_id,
                                     user_id=user_id,
@@ -88,13 +96,12 @@ Api to determine the next label to be displayed to a user
 @cross_origin()
 def select_label():
     user_id = request.args.get('user_id')
-    timestamp = str(datetime.utcnow())
     if not user_id:
         raise Exception("No user id given")
-    label = recommender.select_nudge(user_id)
-    #nudge = Nudges(id=label, user_id=user_id, primary="{}/{}/{}".format(user_id, "label"+str(label), timestamp))
-    #db.session.add(nudge)
-    #db.session.commit()
+    nudges = list(Nudges.query.filter_by(user_id=user_id))
+    seen_nudges = [nudge.id for nudge in nudges]
+    last_one = seen_nudges[-1]
+    label = last_one
     return jsonify(label)
 
 
