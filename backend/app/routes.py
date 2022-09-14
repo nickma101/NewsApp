@@ -34,13 +34,14 @@ def get_recommendations():
     timestamp = datetime.utcnow()
     article_id = request.args.get('article_id')
     rating = request.args.get('rating')
+    section = request.args.get('section')
+    print(section) #currently returning none
     #call recommender functions
     experiment_id = recommender.select_article_set(user_id)
     if not experiment_id:
         raise Exception("No experiment id given")
     nudge = recommender.select_nudge(user_id)
     nudge_id = int(nudge)
-    print(nudge, nudge_id)
     nudge = Nudges(id=nudge_id, user_id=user_id, primary="{}/{}/{}".format(user_id, "label" + str(nudge_id), timestamp))
     db.session.add(nudge)
     #retrieve and log articles
@@ -55,11 +56,16 @@ def get_recommendations():
     #determine the number of previous sets to avoid logging empty ratings
     exposures = list(Exposures.query.filter_by(user_id=user_id))
     no_of_previous_sets = len([exp.article_set_id for exp in exposures])
+    nudge_id_if_applicable = 0
+    if section == 'Current Affairs':
+        nudge_id_if_applicable = nudge_id
     if no_of_previous_sets >0:
         ratings = Ratings(article_id=article_id,
                                     user_id=user_id,
                                     timestamp=timestamp,
                                     rating=rating,
+                                    nudge_id=nudge_id_if_applicable,
+                                    previous_nudging_condition=nudge_id,
                                     primary="{}/{}/{}".format(user_id, article_id, str(timestamp)))
         db.session.add(ratings)
     db.session.commit()

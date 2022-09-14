@@ -15,6 +15,7 @@ export default function Article ( {navigation} ) {
 
     const article = data
 
+
     //ask user to stay on page when they refresh
     useEffect(() => {
         window.addEventListener('beforeunload', alertUser)
@@ -73,7 +74,7 @@ export default function Article ( {navigation} ) {
     //on-click function for navigating to the next set of recommendations
     const navigate = useNavigate()
     function handleClick (e) {
-        const params = {id: get_id(), article_id: get_article_id(), rating: rating}
+        const params = {id: get_id(), article_id: get_article_id(), rating: rating, title: article.title, section: article.section}
         if (rating === undefined) {
                 alert('Vergeet niet het artikel te beoordelen')
                 e.preventDefault();

@@ -78,6 +78,8 @@ class Ratings(db.Model):
     rating = db.Column(db.Numeric(2, 1), default=0)
     user_id = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    nudge_id = db.Column(db.Integer)
+    previous_nudging_condition = db.Column(db.Integer)
     primary = db.Column(db.String(500), primary_key=True)
 
 
