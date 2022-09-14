@@ -64,7 +64,7 @@ Output: List of articles that matches the experiment id that is to be shown
 """
 
 
-def get_articles(experiment_id, user_id):
+def get_articles(experiment_id):
     articles = []
     settings = get_settings(experiment_id)
     for article in amcat.get_articles(project=settings['project'],
