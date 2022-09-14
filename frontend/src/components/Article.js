@@ -2,7 +2,7 @@
     Article  component that fetches the article a user selected and displays it to the user
 */
 import React,  { useState, useEffect } from 'react';
-import {Card, Image, Rating } from "semantic-ui-react"
+import {Card, Image, Rating, Button } from "semantic-ui-react"
 import axios from 'axios';
 import './css/Article.css'
 import { useNavigate, createSearchParams } from "react-router-dom";
@@ -100,7 +100,7 @@ export default function Article ( {navigation} ) {
                 fluid
                 >
                 <Card.Header
-                    className = 'title'
+                    className = 'title_custom'
                 >
                     {article.title}
                 </Card.Header>
@@ -146,11 +146,10 @@ export default function Article ( {navigation} ) {
                     onRate= {handleRate}
                     >
                 </Rating>
-                <button
-                    className='button'
+                <Button primary
                     onClick={handleClick}>
                         Verder gaan
-                    </button>
+                    </Button>
             </Card>
     );
 }

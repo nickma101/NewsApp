@@ -10,8 +10,9 @@ from flask import request, jsonify, redirect, url_for
 from flask_cors import cross_origin
 from app import app, db
 from app import recommender
-from .database import ArticleSetsSeen, NewsSelected, Nudges
+from .database import Exposures, Selections, Ratings, ArticleList
 from datetime import datetime
+import random
 
 
 """
@@ -29,27 +30,32 @@ Recommendation page where article selection takes place
 @cross_origin()
 def get_recommendations():
     user_id = request.args.get('user_id')
-    print(user_id)
     experiment_id = recommender.select_article_set(user_id)
     timestamp = datetime.utcnow()
+    exposures = list(Exposures.query.filter_by(user_id=user_id))
+    no_of_previous_sets = len([exp.article_set_id for exp in exposures])
+    nudge = ''
     article_id = request.args.get('article_id')
-    print(article_id)
     rating = request.args.get('rating')
-    print(rating)
     if not experiment_id:
         raise Exception("No experiment id given")
-    article_sets_seen = ArticleSetsSeen(id=experiment_id,
+    articles = recommender.get_articles(experiment_id, user_id)
+    random.shuffle(articles)
+    exposures = Exposures(article_set_id=experiment_id,
                                         user_id=user_id,
-                                        primary="{}/{}/{}".format(user_id, experiment_id, str(timestamp)))
-    article_seen = NewsSelected(id=article_id,
-                                user_id=user_id,
-                                endtime=timestamp,
-                                rating=rating,
-                                primary="{}/{}/{}".format(user_id, experiment_id, timestamp))
-    db.session.add(article_sets_seen)
-    db.session.add(article_seen)
+                                        timestamp=timestamp,
+                                        nudge_id=nudge,
+                                        exposure_id="{}/{}/{}".format(user_id, experiment_id, str(timestamp)))
+    db.session.add(exposures)
+    if no_of_previous_sets >0:
+        ratings = Ratings(article_id=article_id,
+                                    user_id=user_id,
+                                    timestamp=timestamp,
+                                    rating=rating,
+                                    primary="{}/{}/{}".format(user_id, article_id, str(timestamp)))
+        db.session.add(ratings)
     db.session.commit()
-    return jsonify(recommender.get_articles(experiment_id, user_id))
+    return jsonify(articles)
 
 
 """
@@ -66,9 +72,9 @@ def show_article():
     if not article_id:
         raise Exception("No article id given")
     else:
-        article_seen = NewsSelected(id=article_id,
+        article_seen = Selections(article_id=article_id,
                                     user_id=user_id,
-                                    starttime=timestamp,
+                                    timestamp=timestamp,
                                     primary="{}/{}/{}".format(user_id, article_id, str(timestamp)))
         db.session.add(article_seen)
         db.session.commit()
@@ -86,9 +92,9 @@ def select_label():
     if not user_id:
         raise Exception("No user id given")
     label = recommender.select_nudge(user_id)
-    nudge = Nudges(id=label, user_id=user_id, primary="{}/{}/{}".format(user_id, "label"+str(label), timestamp))
-    db.session.add(nudge)
-    db.session.commit()
+    #nudge = Nudges(id=label, user_id=user_id, primary="{}/{}/{}".format(user_id, "label"+str(label), timestamp))
+    #db.session.add(nudge)
+    #db.session.commit()
     return jsonify(label)
 
 
@@ -101,8 +107,8 @@ def rounds_left():
     user_id = request.args.get('user_id')
     if not user_id:
         raise Exception("No user id given")
-    exposures = list(ArticleSetsSeen.query.filter_by(user_id=user_id))
-    seen_ids = {exp.id for exp in exposures}
+    exposures = list(Exposures.query.filter_by(user_id=user_id))
+    seen_ids = {exp.article_set_id for exp in exposures}
     open_sets = set(recommender.experiment_ids) - seen_ids
     if not open_sets:
         print('no more sets')

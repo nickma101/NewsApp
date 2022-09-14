@@ -7,7 +7,7 @@ Handles the articles that are displayed to users
 """
 
 from app import db
-from app.database import ArticleSetsSeen, Nudges
+from app.database import Exposures, Nudges
 from amcatclient import AmcatAPI
 from app.experimental_settings import get_settings
 import random
@@ -29,8 +29,8 @@ Output: Random selection from article_sets that were not yet seen by a user
 
 
 def select_article_set(user_id):
-    exposures = list(ArticleSetsSeen.query.filter_by(user_id=user_id))
-    seen_ids = {exp.id for exp in exposures}
+    exposures = list(Exposures.query.filter_by(user_id=user_id))
+    seen_ids = {exp.article_set_id for exp in exposures}
     open_sets = set(experiment_ids) - seen_ids
     if not open_sets:
         return 101
@@ -72,9 +72,7 @@ def get_articles(experiment_id, user_id):
                                       columns=settings['columns'],
                                       articleSet_int=settings['articleSet_int']):
         articles.append(article)
-    random.shuffle(articles)
     return articles
-
 
 
 """
@@ -85,8 +83,8 @@ Output: The last article set that a user saw
 
 
 def last_article_set(user_id):
-    exposures = list(ArticleSetsSeen.query.filter_by(user_id=user_id))
-    seen_ids = [exp.id for exp in exposures]
+    exposures = list(Exposures.query.filter_by(user_id=user_id))
+    seen_ids = [exp.article_set_id for exp in exposures]
     last_one = seen_ids[-1]
     if not last_one:
         return "Something isn't right here"
