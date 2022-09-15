@@ -58,11 +58,19 @@ export default function ArticleDisplay ({ article }) {
         return article.id
     }
 
+    const get_article_section = () => {
+        return article.section
+    }
+
+    const get_article_title = () => {
+        return article.title
+    }
+
     const navigate = useNavigate()
 
     //on-click function to navigate to a selected article
     const navigateToArticle = (article) => {
-        const params = {id: get_id(), article_id: get_article_id()}
+        const params = {id: get_id(), article_id: get_article_id(), title: get_article_title(), section: get_article_section()}
         navigate({
             pathname: "/article/",
             search: `?${createSearchParams(params)}`,

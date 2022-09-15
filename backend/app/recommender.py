@@ -48,7 +48,7 @@ Output: Random selection of nudges yet to be displayed to the user
 
 def select_nudge(user_id):
     exposures = list(Nudges.query.filter_by(user_id=user_id))
-    seen_nudges = {exp.id for exp in exposures}
+    seen_nudges = {exp.nudge_id for exp in exposures}
     open_nudges = set(nudge_ids) - seen_nudges
     if not open_nudges:
         return "that's it, no more open nudges"

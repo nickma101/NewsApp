@@ -50,11 +50,25 @@ export default function Article ( {navigation} ) {
         return params.get('article_id');
     };
 
+    //getting article title from url
+    function get_article_title() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('title');
+    };
+
+    //getting article id from url
+    function get_article_section() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('section');
+    };
+
     //retrieving an individual article from API
     useEffect(() => {
         const user_id = get_id()
         const article_id = get_article_id()
-        axios.get('http://localhost:5000/article', { params: { user_id, article_id }}).then(res => setData(res.data[0]))
+        const section = get_article_section()
+        const title = get_article_title()
+        axios.get('http://localhost:5000/article', { params: { user_id, article_id, section, title }}).then(res => setData(res.data[0]))
     }, [])
 
     const rounds_left = rounds
@@ -74,7 +88,7 @@ export default function Article ( {navigation} ) {
     //on-click function for navigating to the next set of recommendations
     const navigate = useNavigate()
     function handleClick (e) {
-        const params = {id: get_id(), article_id: get_article_id(), rating: rating, title: article.title, section: article.section}
+        const params = {id: get_id(), article_id: get_article_id(), rating: rating}
         if (rating === undefined) {
                 alert('Vergeet niet het artikel te beoordelen')
                 e.preventDefault();

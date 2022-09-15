@@ -10,7 +10,7 @@ from flask import request, jsonify
 from flask_cors import cross_origin
 from app import app, db
 from app import recommender
-from .database import Exposures, Selections, Ratings, ArticleList, Nudges
+from .database import Exposures, Selections, Ratings, Sessions, Nudges, User
 from datetime import datetime
 import random
 
@@ -33,44 +33,67 @@ Recommendation page where article selection takes place
 @app.route('/recommendations', methods=["GET"])
 @cross_origin()
 def get_recommendations():
-    # getting parameters
+    # handle users
     user_id = request.args.get('user_id')
+    users = [user.user_id for user in User.query.all()]
+    if int(user_id) not in users:
+        user = User(user_id=user_id)
+        db.session.add(user)
+    # get other relevant parameters
     timestamp = datetime.utcnow()
     article_id = request.args.get('article_id')
     rating = request.args.get('rating')
-    section = request.args.get('section')
-    print(section)  # currently returning none
     # call recommender functions
     experiment_id = recommender.select_article_set(user_id)
     if not experiment_id:
         raise Exception("No experiment id given")
     nudge = recommender.select_nudge(user_id)
     nudge_id = int(nudge)
-    nudge = Nudges(id=nudge_id, user_id=user_id, primary="{}/{}/{}".format(user_id, "label" + str(nudge_id), timestamp))
+    nudge = Nudges(nudge_id=nudge_id,
+                   user_id=user_id,
+                   primary="{}/{}/{}".format(user_id,
+                                             "label" + str(nudge_id),
+                                             timestamp))
     db.session.add(nudge)
     # retrieve and log articles
-    articles = recommender.get_articles(experiment_id, user_id)
+    articles = recommender.get_articles(experiment_id)
     random.shuffle(articles)
     exposures = Exposures(article_set_id=experiment_id,
                           user_id=user_id,
                           timestamp=timestamp,
                           nudge_id=nudge_id,
-                          exposure_id="{}/{}/{}".format(user_id, experiment_id, str(timestamp)))
+                          exposure_id="{}/{}/{}".format(user_id,
+                                                        experiment_id,
+                                                        str(timestamp)))
     db.session.add(exposures)
+    for article in articles:
+        article_id = article['id']
+        position = [i for i, d in enumerate(articles) if article_id in d.values()][0]
+        user_id = user_id
+        session_position = Sessions(article_id=article_id,
+                                    user_id=user_id,
+                                    exposure_id="{}/{}/{}".format(user_id,
+                                                                  experiment_id,
+                                                                  str(timestamp)),
+                                    position=position,
+                                    nudge_id=nudge_id,
+                                    primary="{}/{}/{}".format(user_id,
+                                                              article_id,
+                                                              experiment_id,
+                                                              str(timestamp),
+                                                              position))
+        db.session.add(session_position)
     # determine the number of previous sets to avoid logging empty ratings
     exposures = list(Exposures.query.filter_by(user_id=user_id))
     no_of_previous_sets = len([exp.article_set_id for exp in exposures])
-    nudge_id_if_applicable = 0
-    if section == 'Current Affairs':
-        nudge_id_if_applicable = nudge_id
     if no_of_previous_sets > 0:
         ratings = Ratings(article_id=article_id,
                           user_id=user_id,
                           timestamp=timestamp,
                           rating=rating,
-                          nudge_id=nudge_id_if_applicable,
-                          previous_nudging_condition=nudge_id,
-                          primary="{}/{}/{}".format(user_id, article_id, str(timestamp)))
+                          primary="{}/{}/{}".format(user_id,
+                                                    article_id,
+                                                    str(timestamp)))
         db.session.add(ratings)
     db.session.commit()
     return jsonify(articles)
@@ -85,6 +108,12 @@ Article page where users can read and rate articles
 @cross_origin()
 def show_article():
     user_id = request.args.get('user_id')
+    section = request.args.get('section')
+    title = request.args.get('title')
+    previous_nudging_condition = [nudge.nudge_id for nudge in Nudges.query.filter_by(user_id=user_id)][-1]
+    nudge_id = 0
+    if section == 'Current Affairs':
+        nudge_id = previous_nudging_condition
     timestamp = datetime.utcnow()
     if not user_id:
         raise Exception("No user id given")
@@ -93,9 +122,15 @@ def show_article():
         raise Exception("No article id given")
     else:
         article_seen = Selections(article_id=article_id,
+                                  title=title,
+                                  section=section,
+                                  previous_nudging_condition=previous_nudging_condition,
+                                  nudge_id=nudge_id,
                                   user_id=user_id,
                                   timestamp=timestamp,
-                                  primary="{}/{}/{}".format(user_id, article_id, str(timestamp)))
+                                  primary="{}/{}/{}".format(user_id,
+                                                            article_id,
+                                                            str(timestamp)))
         db.session.add(article_seen)
         db.session.commit()
     return jsonify(recommender.get_article(user_id, article_id))
@@ -113,7 +148,7 @@ def select_label():
     if not user_id:
         raise Exception("No user id given")
     nudges = list(Nudges.query.filter_by(user_id=user_id))
-    seen_nudges = [nudge.id for nudge in nudges]
+    seen_nudges = [nudge.nudge_id for nudge in nudges]
     last_one = seen_nudges[-1]
     label = last_one
     return jsonify(label)
@@ -134,8 +169,6 @@ def rounds_left():
     seen_ids = {exp.article_set_id for exp in exposures}
     open_sets = set(recommender.experiment_ids) - seen_ids
     if not open_sets:
-        print('no more sets')
         return jsonify(0)
     else:
-        print('still more sets')
         return jsonify(1)
