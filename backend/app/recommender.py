@@ -18,7 +18,7 @@ import random
 """
 amcat = AmcatAPI("https://vu.amcat.nl", "NickMattis")
 experiment_ids = ['article_set1', 'article_set2', 'article_set3', 'article_set4']
-nudge_ids = [1, 2, 3, 4]
+nudge_ids = [1, 2, 3, 4] # Popularity, SelfActualisation, ModelCitizen & None - see ArticleDisplayCard
 
 
 """

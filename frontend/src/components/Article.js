@@ -56,7 +56,7 @@ export default function Article ( {navigation} ) {
         return params.get('title');
     };
 
-    //getting article id from url
+    //getting article section from url
     function get_article_section() {
         const params = new URLSearchParams(window.location.search);
         return params.get('section');

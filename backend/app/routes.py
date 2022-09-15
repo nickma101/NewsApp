@@ -43,6 +43,8 @@ def get_recommendations():
     timestamp = datetime.utcnow()
     article_id = request.args.get('article_id')
     rating = request.args.get('rating')
+    if not rating:
+        rating = 0
     # call recommender functions
     experiment_id = recommender.select_article_set(user_id)
     if not experiment_id:
@@ -83,10 +85,7 @@ def get_recommendations():
                                                               str(timestamp),
                                                               position))
         db.session.add(session_position)
-    # determine the number of previous sets to avoid logging empty ratings
-    exposures = list(Exposures.query.filter_by(user_id=user_id))
-    no_of_previous_sets = len([exp.article_set_id for exp in exposures])
-    if no_of_previous_sets > 0:
+    if int(rating) > 0:
         ratings = Ratings(article_id=article_id,
                           user_id=user_id,
                           timestamp=timestamp,
@@ -95,6 +94,7 @@ def get_recommendations():
                                                     article_id,
                                                     str(timestamp)))
         db.session.add(ratings)
+        db.session.commit()
     db.session.commit()
     return jsonify(articles)
 
@@ -172,3 +172,22 @@ def rounds_left():
         return jsonify(0)
     else:
         return jsonify(1)
+
+
+@app.route('/last_rating', methods=["GET"])
+@cross_origin()
+def log_last_rating():
+    user_id = request.args.get('user_id')
+    timestamp = datetime.utcnow()
+    article_id = request.args.get('article_id')
+    rating = request.args.get('rating')
+    ratings = Ratings(article_id=article_id,
+                      user_id=user_id,
+                      timestamp=timestamp,
+                      rating=rating,
+                      primary="{}/{}/{}".format(user_id,
+                                                article_id,
+                                                str(timestamp)))
+    db.session.add(ratings)
+    db.session.commit()
+    return 'does it matter?'
