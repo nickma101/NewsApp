@@ -174,6 +174,11 @@ def rounds_left():
         return jsonify(1)
 
 
+"""
+Api to log last article rating
+"""
+
+
 @app.route('/last_rating', methods=["GET"])
 @cross_origin()
 def log_last_rating():
