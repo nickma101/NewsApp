@@ -10,7 +10,7 @@ from flask import request, jsonify
 from flask_cors import cross_origin
 from app import app, db
 from app import recommender
-from .database import Exposures, Selections, Ratings, Sessions, Nudges, User
+from .database import Exposures, Selections, Ratings, Articles, Nudges, User
 from datetime import datetime
 import random
 
@@ -62,7 +62,7 @@ def get_recommendations():
     random.shuffle(articles)
     exposures = Exposures(article_set_id=experiment_id,
                           user_id=user_id,
-                          timestamp=timestamp,
+                          timestamp_exposures=timestamp,
                           nudge_id=nudge_id,
                           exposure_id="{}/{}/{}".format(user_id,
                                                         experiment_id,
@@ -70,13 +70,17 @@ def get_recommendations():
     db.session.add(exposures)
     for article in articles:
         article_id = article['id']
+        article_section = article['section']
+        article_title = article['title']
         position = [i for i, d in enumerate(articles) if article_id in d.values()][0]
         user_id = user_id
-        session_position = Sessions(article_id=article_id,
+        article_position = Articles(article_id=article_id,
                                     user_id=user_id,
                                     exposure_id="{}/{}/{}".format(user_id,
                                                                   experiment_id,
                                                                   str(timestamp)),
+                                    section=article_section,
+                                    title=article_title,
                                     position=position,
                                     nudge_id=nudge_id,
                                     primary="{}/{}/{}".format(user_id,
@@ -84,11 +88,11 @@ def get_recommendations():
                                                               experiment_id,
                                                               str(timestamp),
                                                               position))
-        db.session.add(session_position)
+        db.session.add(article_position)
     if int(rating) > 0:
         ratings = Ratings(article_id=article_id,
                           user_id=user_id,
-                          timestamp=timestamp,
+                          timestamp_ratings=timestamp,
                           rating=rating,
                           primary="{}/{}/{}".format(user_id,
                                                     article_id,
@@ -127,7 +131,7 @@ def show_article():
                                   previous_nudging_condition=previous_nudging_condition,
                                   nudge_id=nudge_id,
                                   user_id=user_id,
-                                  timestamp=timestamp,
+                                  timestamp_selections=timestamp,
                                   primary="{}/{}/{}".format(user_id,
                                                             article_id,
                                                             str(timestamp)))
@@ -188,7 +192,7 @@ def log_last_rating():
     rating = request.args.get('rating')
     ratings = Ratings(article_id=article_id,
                       user_id=user_id,
-                      timestamp=timestamp,
+                      timestamp_ratings=timestamp,
                       rating=rating,
                       primary="{}/{}/{}".format(user_id,
                                                 article_id,

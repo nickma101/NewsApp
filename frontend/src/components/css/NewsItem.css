@@ -16,7 +16,8 @@
 }
 
 .text {
-    color: black !important;
+        margin-top: 30px !important;
+        color: black !important;
 }
 
 .img {
