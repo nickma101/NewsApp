@@ -17,7 +17,7 @@ import random
 1) Retriving articles (the stuff below will go into the config file)
 """
 amcat = AmcatAPI("https://vu.amcat.nl", "NickMattis")
-experiment_ids = ['article_set1', 'article_set2', 'article_set3', 'article_set4']
+experiment_ids = ['article_set4', 'article_set3', 'article_set2', 'article_set1']
 nudge_ids = [1, 2, 3, 4] # Popularity, SelfActualisation, ModelCitizen & None - see ArticleDisplayCard
 
 
@@ -30,12 +30,16 @@ Output: Random selection from article_sets that were not yet seen by a user
 
 def select_article_set(user_id):
     exposures = list(Exposures.query.filter_by(user_id=user_id))
+    print(exposures)
     seen_ids = {exp.article_set_id for exp in exposures}
+    print(seen_ids)
     open_sets = set(experiment_ids) - seen_ids
+    print(open_sets)
     if not open_sets:
         return 101
     else:
-        experiment_id = random.choice(list(open_sets))
+        experiment_id = list(open_sets)[0]
+        print(experiment_id)
         return experiment_id
 
 

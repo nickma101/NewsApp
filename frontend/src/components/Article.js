@@ -2,10 +2,11 @@
     Article  component that fetches the article a user selected and displays it to the user
 */
 import React,  { useState, useEffect } from 'react';
-import {Card, Image, Rating, Button } from "semantic-ui-react"
+import {Container, Card, Image, Rating, Button } from "semantic-ui-react"
 import axios from 'axios';
 import './css/Article.css'
 import { useNavigate, createSearchParams } from "react-router-dom";
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 export default function Article ( {navigation} ) {
 
@@ -15,6 +16,7 @@ export default function Article ( {navigation} ) {
 
     const article = data
 
+    const text = ReactHtmlParser(article.text)
 
     //ask user to stay on page when they refresh
     useEffect(() => {
@@ -109,62 +111,64 @@ export default function Article ( {navigation} ) {
 
     //article display
     return(
-            <Card
-                className='card'
-                centered
-                fluid
-                >
-                <Card.Header
-                    className = 'title_custom'
-                >
-                    {article.title}
-                </Card.Header>
-                <Card.Description
+            <Container
+            className="ui container">
+                <Card
+                    className='card'
+                    centered
+                    fluid
+                    >
+                    <Card.Header
+                        className = 'title_custom'
+                    >
+                        {article.title}
+                    </Card.Header>
+                    <Card.Description
                     className = 'date'
                     textAlign = 'left'
-                >
-                    {article.date}
-                </Card.Description>
-                <Card.Content
-                    className = 'text'
-                >
-                    <Image
-                        className= "img"
-                        size= 'large'
-                        centered
-                        src={article.image_url}
-                        style={{ marginBottom: 30 }}
-                        />
-                    <Card.Description
-                        className = 'teaser'
-                        textAlign = 'left'
                     >
-                    {article.teaser}
+                        05-10-2022
                     </Card.Description>
-                {article.text}
-                </Card.Content>
-                <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        height: '5vh',
-                    }}
-                >
-                    <h3>Beoordeel dit artikel op een schaal van 1 tot 5</h3>
-                </div>
-                <Rating
-                    className='rating'
-                    icon="star"
-                    rating = {rating}
-                    maxRating={5}
-                    onRate= {handleRate}
+                    <Image
+                            className= "img"
+                            size= 'large'
+                            centered
+                            src={article.image_url}
+                            style={{ marginBottom: 30 }}
+                            />
+                    <Card.Content
+                        className = 'text'
                     >
-                </Rating>
-                <Button primary
-                    onClick={handleClick}>
-                        Verder gaan
-                    </Button>
-            </Card>
+                        <Card.Description
+                            className = 'teaser'
+                            textAlign = 'left'
+                        >
+                        {article.teaser}
+                        </Card.Description>
+                    {text}
+                    </Card.Content>
+                    <div
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            height: '5vh',
+                        }}
+                    >
+                        <h3>Beoordeel dit artikel op een schaal van 1 tot 5</h3>
+                    </div>
+                    <Rating
+                        className='rating'
+                        icon="star"
+                        rating = {rating}
+                        maxRating={5}
+                        onRate= {handleRate}
+                        >
+                    </Rating>
+                    <Button content='Verder gaan' icon='right arrow' labelPosition='right' color='instagram' size='big'
+                        onClick={handleClick}>
+                        </Button>
+                </Card>
+            </Container >
     );
 }
