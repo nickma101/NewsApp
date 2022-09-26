@@ -16,6 +16,7 @@ import ModelCitizenNudge from './Nudges/ModelCitizenNudge';
 export default function ArticleDisplay ({ article }) {
 
     const [data, setData] = useState({})
+    const navigate = useNavigate()
 
     //getting user id from url
     const get_id = () => {
@@ -28,7 +29,6 @@ export default function ArticleDisplay ({ article }) {
         const user_id = get_id()
         if (article.section === 'Current Affairs') {
             axios.get('http://localhost:5000/label', { params: { user_id }}).then(res => setData(res.data))
-            //add post request to database Nudges
         }
     }, [])
 
@@ -66,7 +66,6 @@ export default function ArticleDisplay ({ article }) {
         return article.title
     }
 
-    const navigate = useNavigate()
 
     //on-click function to navigate to a selected article
     const navigateToArticle = (article) => {

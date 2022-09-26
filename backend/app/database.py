@@ -80,4 +80,4 @@ class Articles(db.Model):
 class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
     qualtrics_id = db.Column(db.String(500))
-    overall_time = timestamp_ratings = db.Column(db.DateTime, index=True) #not functioning atm
+    overall_time = timestamp_ratings = db.Column(db.DateTime, index=True)  # not functioning atm

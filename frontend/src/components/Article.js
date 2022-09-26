@@ -13,9 +13,7 @@ export default function Article ( {navigation} ) {
     const [data, setData] = useState({})
     const [rounds, setRounds] = useState({})
     const [rating, updateRating] = useState()
-
     const article = data
-
     const text = ReactHtmlParser(article.text)
 
     //ask user to stay on page when they refresh
@@ -33,9 +31,9 @@ export default function Article ( {navigation} ) {
 
     //prevent users from using the browsers' 'go back' button
         useEffect(() => {
-        window.history.pushState(null, document.title, window.location.href);
-        window.addEventListener('popstate', function(event) {
-        window.history.pushState(null, document.title, window.location.href);
+            window.history.pushState(null, document.title, window.location.href);
+            window.addEventListener('popstate', function(event) {
+            window.history.pushState(null, document.title, window.location.href);
         });
     })
 
@@ -52,24 +50,13 @@ export default function Article ( {navigation} ) {
         return params.get('article_id');
     };
 
-    //getting article title from url
-    function get_article_title() {
-        const params = new URLSearchParams(window.location.search);
-        return params.get('title');
-    };
-
-    //getting article section from url
-    function get_article_section() {
-        const params = new URLSearchParams(window.location.search);
-        return params.get('section');
-    };
 
     //retrieving an individual article from API
     useEffect(() => {
-        const user_id = get_id()
-        const article_id = get_article_id()
-        const section = get_article_section()
-        const title = get_article_title()
+        const user_id = new URLSearchParams(window.location.search).get('id')
+        const article_id = new URLSearchParams(window.location.search).get('article_id')
+        const section = new URLSearchParams(window.location.search).get('section')
+        const title = new URLSearchParams(window.location.search).get('title')
         axios.get('http://localhost:5000/article', { params: { user_id, article_id, section, title }}).then(res => setData(res.data[0]))
     }, [])
 
@@ -81,7 +68,7 @@ export default function Article ( {navigation} ) {
         axios.get('http://localhost:5000/finish', { params: { user_id }}).then(res => setRounds(res.data))
     }, [])
 
-    //on-clcik function that updates the rating a user gives to an article
+    //on-click function that updates the rating a user gives to an article
     function handleRate(e, { rating }) {
         e.preventDefault();
         updateRating(rating);
