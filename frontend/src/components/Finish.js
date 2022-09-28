@@ -3,8 +3,9 @@
 */
 import React,  { useEffect, useState } from 'react';
 import { useNavigate, createSearchParams } from "react-router-dom";
-import { Container, Header, Button } from 'semantic-ui-react';
+import { Container, Header, Button, Segment } from 'semantic-ui-react';
 import axios from 'axios';
+import './css/Finish.css'
 
 
 export default function Finish () {
@@ -39,29 +40,39 @@ export default function Finish () {
         }, [])
 
     //on-click function that takes the user back to the qualtrics survey
-    function handleClick () {
-        const params = {id: get_id()}
-        navigate({
-            pathname: "/", //qualtrics link still needs to be added
-            search: `?${createSearchParams(params)}`,
-        });
+    //function handleClick () {
+    //    const params = {id: get_id()}
+    //    navigate({
+    //        pathname: "/", //qualtrics link still needs to be added
+    //        search: `?${createSearchParams(params)}`,
+    //    });
+    //}
+
+    //on-click function that takes the user back to the qualtrics survey
+    function copyToClipboard () {
+        navigator.clipboard.writeText('Dumplings')
     }
 
     return(
         <Container text>
-            <Header as='h2'>U bent bijna klaar!</Header>
-            <p>
-              U hebt met succes het testen van verschillende nieuwsaanbidders afgerond.
-              Dank u voor uw deelname tot nu toe.
-            </p>
-            <p>
-                Om terug te keren naar de enquête en het experiment af te ronden, klikt u op de onderstaande knop.
-            </p>
-            <button
-                    className='button'
-                    onClick={handleClick}>
-                        Terug naar de enquête
-                    </button>
+            <div>
+                <Header className= "title_custom">
+                    Je bent bijna klaar!
+                </Header>
+            </div>
+            <div div class="text">
+                <p>
+                    Je hebt met succes het testen van verschillende nieuwsaanbieders afgerond.
+                    Bedankt voor je deelname tot nu toe.
+                </p>
+                 <p className="text">
+                    <b>Zorg ervoor dat je de onderstaande code onthoudt</b> of per klick kopiert, zodat u door kunt gaan met de qualtrics enquête. Er zijn nog maar een paar vragen.
+                </p>
+                <Segment basic textAlign={"center"}>
+                    <Button textAlign="center" content='Dumplings' color='instagram' size='big' onClick={copyToClipboard}>
+                    </Button>
+                </Segment>
+            </div>
           </Container>
     );
 }
