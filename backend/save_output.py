@@ -20,7 +20,6 @@ def sql_query_to_csv(query_output, columns_to_exclude=""):
         csv += "\n"
     return csv
 
-
 query = Articles.query.all()
 query2 = Exposures.query.all()
 query3 = Selections.query.all()
@@ -34,4 +33,4 @@ Ratings = sql_query_to_csv(query4)
 Nudges = sql_query_to_csv(query5)
 User = sql_query_to_csv(query6)
 
-print(Exposures)
+print(User)
