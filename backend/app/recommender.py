@@ -30,16 +30,12 @@ Output: Random selection from article_sets that were not yet seen by a user
 
 def select_article_set(user_id):
     exposures = list(Exposures.query.filter_by(user_id=user_id))
-    print(exposures)
     seen_ids = {exp.article_set_id for exp in exposures}
-    print(seen_ids)
     open_sets = set(experiment_ids) - seen_ids
-    print(open_sets)
     if not open_sets:
         return 101
     else:
         experiment_id = list(open_sets)[0]
-        print(experiment_id)
         return experiment_id
 
 
