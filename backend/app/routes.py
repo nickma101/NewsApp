@@ -41,7 +41,7 @@ def get_recommendations():
         db.session.add(user)
     # get other relevant parameters
     timestamp = datetime.utcnow()
-    article_id = request.args.get('article_id')
+    rated_article_id = request.args.get('article_id')
     rating = request.args.get('rating')
     if not rating:
         rating = 0
@@ -90,7 +90,7 @@ def get_recommendations():
                                                               position))
         db.session.add(article_position)
     if int(rating) > 0:
-        ratings = Ratings(article_id=article_id,
+        ratings = Ratings(article_id=rated_article_id,
                           user_id=user_id,
                           timestamp_ratings=timestamp,
                           rating=rating,
@@ -122,6 +122,7 @@ def show_article():
     if not user_id:
         raise Exception("No user id given")
     article_id = request.args.get('article_id')
+    print(article_id)
     if not article_id:
         raise Exception("No article id given")
     else:
