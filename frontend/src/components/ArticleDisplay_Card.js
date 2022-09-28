@@ -102,7 +102,7 @@ export default function ArticleDisplay ({ article }) {
                         centered
                         label = {getLabel(article)}
                         src={article.image_url}
-                        style={{ marginBottom: 30 }}
+                        style={{ marginBottom: 20 }}
                         />
                     <Card.Description
                         className = 'teaser'

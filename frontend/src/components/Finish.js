@@ -56,7 +56,7 @@ export default function Finish () {
     return(
         <Container text>
             <div>
-                <Header className= "title_custom">
+                <Header className= "title_custom2">
                     Je bent bijna klaar!
                 </Header>
             </div>
