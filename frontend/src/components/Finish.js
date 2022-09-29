@@ -63,7 +63,7 @@ export default function Finish () {
                  <p className="text">
                     Klik hieronder om terug te keren naar de enquête. Er zijn nog maar een paar vragen.
                 </p>
-                <Segment basic textAlign={"center"}>
+                <Segment basic textAlign={"left"}>
                     <Button textAlign="center" content='Terug naar de enquête' color='instagram' size='big' onClick={handleClick}>
                     </Button>
                 </Segment>
