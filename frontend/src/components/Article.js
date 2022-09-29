@@ -2,7 +2,7 @@
     Article  component that fetches the article a user selected and displays it to the user
 */
 import React,  { useState, useEffect } from 'react';
-import {Container, Card, Image, Rating, Button } from "semantic-ui-react"
+import {Container, Card, Image, Rating, Button, Modal, Segment } from "semantic-ui-react"
 import axios from 'axios';
 import './css/Article.css'
 import { useNavigate, createSearchParams } from "react-router-dom";
@@ -11,6 +11,7 @@ import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from
 export default function Article ( {navigation} ) {
 
     const [data, setData] = useState({})
+    let [open, setOpen] = useState(false)
     const [rounds, setRounds] = useState({})
     const [rating, updateRating] = useState()
     const article = data
@@ -28,6 +29,10 @@ export default function Article ( {navigation} ) {
         e.preventDefault()
         e.returnValue = ''
     }
+
+    function closeModal() {
+                setOpen(false);
+            }
 
     //prevent users from using the browsers' 'go back' button
         useEffect(() => {
@@ -79,8 +84,18 @@ export default function Article ( {navigation} ) {
     function handleClick (e) {
         const params = {id: get_id(), article_id: get_article_id(), rating: rating}
         if (rating === undefined) {
-                alert('Vergeet niet het artikel te beoordelen')
-                e.preventDefault();
+            setOpen(true);
+            e.preventDefault();
+        } else {
+            handleLastClick(e)
+        }
+    }
+
+    function handleLastClick (e) {
+        const params = {id: get_id(), article_id: get_article_id(), rating: rating}
+        if (rating === undefined) {
+            setOpen(true);
+            e.preventDefault();
         } else {
             if (rounds_left === 1) {
                 navigate({
@@ -92,47 +107,42 @@ export default function Article ( {navigation} ) {
                     pathname: "/finish/",
                     search: `?${createSearchParams(params)}`,
                 });
+
             }
         }
     }
 
     //article display
     return(
-            <Container
-            className="ui container">
-                <Card
-                    className='card'
-                    centered
-                    fluid
-                    >
-                    <Card.Header
-                        className = 'title_custom'
-                    >
+        <Container
+        className="ui container">
+            <Card
+                className='card'
+                centered
+                fluid>
+                <Card.Header
+                    className = 'title_custom'>
                         {article.title}
                     </Card.Header>
                     <Card.Description
                     className = 'date'
-                    textAlign = 'left'
-                    >
+                    textAlign = 'left'>
                         05-10-2022
                     </Card.Description>
                     <Image
-                            className= "img"
-                            size= 'large'
-                            centered
-                            src={article.image_url}
-                            style={{ marginBottom: 30 }}
-                            />
+                        className= "img"
+                        size= 'large'
+                        centered
+                        src={article.image_url}
+                        style={{ marginBottom: 30 }} />
                     <Card.Content
-                        className = 'text'
-                    >
+                        className = 'text'>
                         <Card.Description
                             className = 'teaser'
-                            textAlign = 'left'
-                        >
+                            textAlign = 'left'>
                         {article.teaser}
                         </Card.Description>
-                    {text}
+                            {text}
                     </Card.Content>
                     <div
                         style={{
@@ -140,22 +150,59 @@ export default function Article ( {navigation} ) {
                             alignItems: 'center',
                             justifyContent: 'center',
                             height: '5vh',
-                        }}
-                    >
-                        <h3>Beoordeel dit artikel op een schaal van 1 tot 5</h3>
+                        }}>
+                            <h3>Beoordeel dit artikel op een schaal van 1 tot 5</h3>
                     </div>
                     <Rating
                         className='rating'
                         icon="star"
                         rating = {rating}
                         maxRating={5}
-                        onRate= {handleRate}
-                        >
+                        onRate= {handleRate}>
                     </Rating>
-                    <Button content='Verder gaan' icon='right arrow' labelPosition='right' color='instagram' size='big'
+                    <Button
+                        content='Verder gaan'
+                        icon='right arrow'
+                        labelPosition='right'
+                        color='instagram'
+                        size='big'
                         onClick={handleClick}>
-                        </Button>
+                    </Button>
                 </Card>
-            </Container >
+                <Container onClick={closeModal}>
+                    <Modal
+                        open={open}
+                        onClick={e => e.stopPropagation()}>
+                    <Modal.Header
+                        className='modal_header'>
+                            Vergeet niet het artikel te beoordelen!
+                    </Modal.Header>
+                    <Modal.Description
+                        className='modal_rating'>
+                        <Rating
+                            className='modal_rating'
+                            icon='star'
+                            size='massive'
+                            rating = {rating}
+                            maxRating={5}
+                            onRate= {handleRate}>
+                        </Rating>
+                    </Modal.Description>
+                    <Modal.Content>
+                        <Segment basic textAlign={"center"}>
+                            <Button
+                                content='Verder gaan'
+                                style={{textAlign: "center"}}
+                                icon='right arrow'
+                                labelPosition='right'
+                                color='instagram'
+                                size='big'
+                                onClick={handleLastClick}>
+                            </Button>
+                        </Segment>
+                    </Modal.Content>
+                </Modal>
+            </Container>
+        </Container >
     );
 }
