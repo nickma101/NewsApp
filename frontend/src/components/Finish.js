@@ -39,18 +39,13 @@ export default function Finish () {
             axios.get('http://localhost:5000/last_rating', { params: { user_id, article_id, rating }}).then(res => setData(res.data[0]))
         }, [])
 
-    //on-click function that takes the user back to the qualtrics survey
-    //function handleClick () {
-    //    const params = {id: get_id()}
-    //    navigate({
-    //        pathname: "/", //qualtrics link still needs to be added
-    //        search: `?${createSearchParams(params)}`,
-    //    });
-    //}
-
-    //on-click function that takes the user back to the qualtrics survey
-    function copyToClipboard () {
-        navigator.clipboard.writeText('Dumplings')
+    //on-click function that takes the user back to the 2nd qualtrics survey
+    function handleClick () {
+        const params = {id: get_id()}
+        navigate({
+            pathname: "/", //qualtrics link still needs to be added
+            search: `?${createSearchParams(params)}`,
+        });
     }
 
     return(
@@ -66,10 +61,10 @@ export default function Finish () {
                     Bedankt voor je deelname tot nu toe.
                 </p>
                  <p className="text">
-                    <b>Zorg ervoor dat je de onderstaande code onthoudt</b> of per klick kopiert, zodat u door kunt gaan met de qualtrics enquête. Er zijn nog maar een paar vragen.
+                    Klik hieronder om terug te keren naar de enquête. Er zijn nog maar een paar vragen.
                 </p>
                 <Segment basic textAlign={"center"}>
-                    <Button textAlign="center" content='Dumplings' color='instagram' size='big' onClick={copyToClipboard}>
+                    <Button textAlign="center" content='Terug naar de enquête' color='instagram' size='big' onClick={handleClick}>
                     </Button>
                 </Segment>
             </div>
