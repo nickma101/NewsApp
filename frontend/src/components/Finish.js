@@ -43,11 +43,11 @@ export default function Finish () {
 
     //on-click function that takes the user back to the 2nd qualtrics survey
     function handleClick () {
-        const params = {id: get_id(), user_id:get_id()}
-        navigate({
-            pathname: "https://vuass.eu.qualtrics.com/jfe/form/SV_3CB4AtxbiyNgSgK",
-            search: `?${createSearchParams(params)}`,
-        });
+        const user_id = get_id()
+        const href1 ="https://vuass.eu.qualtrics.com"
+        const href2 = `/jfe/form/SV_3CB4AtxbiyNgSgK?user_id=${user_id}`
+        const link = href1 + href2
+        window.location = link
     }
 
     return(
@@ -57,7 +57,7 @@ export default function Finish () {
                     Je bent bijna klaar!
                 </Header>
             </div>
-            <div div class="text">
+            <div div className="text">
                 <p>
                     Je hebt met succes het testen van verschillende nieuwsaanbieders afgerond.
                     Bedankt voor je deelname tot nu toe.
