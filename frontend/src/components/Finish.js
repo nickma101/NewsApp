@@ -36,14 +36,16 @@ export default function Finish () {
             const user_id = get_id()
             const article_id = get_article_id()
             const rating = get_article_rating()
-            axios.get('http://localhost:5000/last_rating', { params: { user_id, article_id, rating }}).then(res => setData(res.data[0]))
-        }, [])
+            axios.get('http://localhost:5000/last_rating',
+                { params: { user_id, article_id, rating }}).then(res => setData(res.data[0]))
+            }, []
+    )
 
     //on-click function that takes the user back to the 2nd qualtrics survey
     function handleClick () {
-        const params = {id: get_id()}
+        const params = {id: get_id(), user_id:get_id()}
         navigate({
-            pathname: "/", //qualtrics link still needs to be added
+            pathname: "https://vuass.eu.qualtrics.com/jfe/form/SV_3CB4AtxbiyNgSgK",
             search: `?${createSearchParams(params)}`,
         });
     }
