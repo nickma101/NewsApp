@@ -1,4 +1,4 @@
-from main import app
+from main import newsapp
 
 if __name__ == "__main__":
-   app.run()
+   newsapp.run()

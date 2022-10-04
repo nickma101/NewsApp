@@ -8,19 +8,19 @@ Handles the different routes that are necessary for the experiment: Backend API 
 """
 from flask import request, jsonify
 from flask_cors import cross_origin
-from app import app, db
+from .app import newsapp, db
 from app import recommender
 from .database import Exposures, Selections, Ratings, Articles, Nudges, User
 from datetime import datetime
 import random
 
-
 """
 Homepage
 """
 
+print("!!!", newsapp)
 
-@app.route('/')
+@newsapp.route('/')
 def home():
     return "test"
 
@@ -30,7 +30,7 @@ Recommendation page where article selection takes place
 """
 
 
-@app.route('/recommendations', methods=["GET"])
+@newsapp.route('/recommendations', methods=["GET"])
 @cross_origin()
 def get_recommendations():
     # handle users
@@ -108,7 +108,7 @@ Article page where users can read and rate articles
 """
 
 
-@app.route('/article', methods=["GET"])
+@newsapp.route('/article', methods=["GET"])
 @cross_origin()
 def show_article():
     user_id = request.args.get('user_id')
@@ -146,7 +146,7 @@ Api to determine the next label to be displayed to a user
 """
 
 
-@app.route('/label', methods=["GET"])
+@newsapp.route('/label', methods=["GET"])
 @cross_origin()
 def select_label():
     user_id = request.args.get('user_id')
@@ -164,7 +164,7 @@ Api to determine whether users are finished
 """
 
 
-@app.route('/finish', methods=["GET"])
+@newsapp.route('/finish', methods=["GET"])
 @cross_origin()
 def rounds_left():
     user_id = request.args.get('user_id')
@@ -184,7 +184,7 @@ Api to log last article rating
 """
 
 
-@app.route('/last_rating', methods=["GET"])
+@newsapp.route('/last_rating', methods=["GET"])
 @cross_origin()
 def log_last_rating():
     user_id = request.args.get('user_id')
