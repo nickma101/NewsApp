@@ -18,11 +18,9 @@ import random
 Homepage
 """
 
-print("!!!", newsapp)
-
 @newsapp.route('/')
 def home():
-    return "test"
+    return "does this work?"
 
 
 """
