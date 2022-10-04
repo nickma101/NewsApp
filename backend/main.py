@@ -1,5 +1,5 @@
 from backend.app.app import app, db
-from backend.app.app import User
+from backend.app.app import User, Nudges, Exposures, Selections, Ratings, Articles
 
 
 @app.shell_context_processor
