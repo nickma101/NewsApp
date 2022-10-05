@@ -1,4 +1,5 @@
 from main import newsapp
 
 if __name__ == "__main__":
-   newsapp.run()
+   newsapp.run(debug=True)
+

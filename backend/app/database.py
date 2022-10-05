@@ -3,10 +3,8 @@ Defines database model for SQLAlchemy
 """
 
 
-from app import db
+from . import db
 from datetime import datetime
-
-
 '''
 DB for all nudges that were displayed to a user
 '''

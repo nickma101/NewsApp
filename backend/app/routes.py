@@ -8,8 +8,7 @@ Handles the different routes that are necessary for the experiment: Backend API 
 """
 from flask import request, jsonify
 from flask_cors import cross_origin
-from .app import newsapp, db
-from app import recommender
+from . import newsapp, db, recommender
 from .database import Exposures, Selections, Ratings, Articles, Nudges, User
 from datetime import datetime
 import random
