@@ -28,7 +28,7 @@ export default function ArticleDisplay ({ article }) {
     useEffect(() => {
         const user_id = get_id()
         if (article.section === 'Current Affairs') {
-            axios.get('http://localhost:5000/label', { params: { user_id }}).then(res => setData(res.data))
+            axios.get(`${API == null?'http://localhost:5000':API}/label`, { params: { user_id }}).then(res => setData(res.data))
         }
     }, [])
 

@@ -39,7 +39,9 @@ class Recommender extends React.Component {
             const user_id = this.get_id()
             const article_id = this.get_article_id()
             const rating = this.get_rating()
-            axios.get('http://localhost:5000/recommendations', { params: { user_id, article_id, rating }})
+            const API = process.env.REACT_APP_NEWSAPP_API;
+            console.log(API);
+            axios.get(`${API == null?'http://localhost:5000':API}/recommendations`, { params: { user_id, article_id, rating }})
                 .then(res => {
                     const articles = res.data;
                     this.setState({ articles });
@@ -59,9 +61,9 @@ class Recommender extends React.Component {
             const id = this.get_id();
                 if (id == null) return <div>Please provide an id </div>;
                     return (
-                        <div className="Container" style={{ marginTop: '50px', marginLeft: '700px', marginRight:'700px' }}>
+                        <Container>
                             <ArticleList articles={this.state.articles} />
-                        </div>
+                        </Container>
                     );
         };
     }

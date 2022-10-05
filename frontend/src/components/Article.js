@@ -62,7 +62,7 @@ export default function Article ( {navigation} ) {
         const article_id = new URLSearchParams(window.location.search).get('article_id')
         const section = new URLSearchParams(window.location.search).get('section')
         const title = new URLSearchParams(window.location.search).get('title')
-        axios.get('http://localhost:5000/article', { params: { user_id, article_id, section, title }}).then(res => setData(res.data[0]))
+        axios.get(`${API == null?'http://localhost:5000':API}/article`, { params: { user_id, article_id, section, title }}).then(res => setData(res.data[0]))
     }, [])
 
     const rounds_left = rounds
@@ -70,7 +70,7 @@ export default function Article ( {navigation} ) {
     //retrieving left open rounds from APU
     useEffect(() => {
         const user_id = get_id()
-        axios.get('http://localhost:5000/finish', { params: { user_id }}).then(res => setRounds(res.data))
+        axios.get(`${API == null?'http://localhost:5000':API}/finish`, { params: { user_id }}).then(res => setRounds(res.data))
     }, [])
 
     //on-click function that updates the rating a user gives to an article
