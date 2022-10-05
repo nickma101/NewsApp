@@ -27,6 +27,7 @@ export default function ArticleDisplay ({ article }) {
     //retrieving the nudge id as determined by the backend (see routes.py & recommender.py)
     useEffect(() => {
         const user_id = get_id()
+        const API = process.env.REACT_APP_NEWSAPP_API;
         if (article.section === 'Current Affairs') {
             axios.get(`${API == null?'http://localhost:5000':API}/label`, { params: { user_id }}).then(res => setData(res.data))
         }

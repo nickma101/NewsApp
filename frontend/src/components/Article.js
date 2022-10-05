@@ -55,13 +55,13 @@ export default function Article ( {navigation} ) {
         return params.get('article_id');
     };
 
-
     //retrieving an individual article from API
     useEffect(() => {
         const user_id = new URLSearchParams(window.location.search).get('id')
         const article_id = new URLSearchParams(window.location.search).get('article_id')
         const section = new URLSearchParams(window.location.search).get('section')
         const title = new URLSearchParams(window.location.search).get('title')
+        const API = process.env.REACT_APP_NEWSAPP_API;
         axios.get(`${API == null?'http://localhost:5000':API}/article`, { params: { user_id, article_id, section, title }}).then(res => setData(res.data[0]))
     }, [])
 
@@ -70,6 +70,7 @@ export default function Article ( {navigation} ) {
     //retrieving left open rounds from APU
     useEffect(() => {
         const user_id = get_id()
+        const API = process.env.REACT_APP_NEWSAPP_API;
         axios.get(`${API == null?'http://localhost:5000':API}/finish`, { params: { user_id }}).then(res => setRounds(res.data))
     }, [])
 
