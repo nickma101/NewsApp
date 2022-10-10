@@ -1,0 +1,76 @@
+.title_custom_desktop {
+    color: black !important;
+    margin-bottom: 1em!important;
+    font-size: 3em!important;
+    margin-top: 1em !important;
+    border-style: none !important;
+}
+
+.articletext_desktop {
+    margin-bottom: 1.5em !important;
+    border-style: none !important;
+    font-size: 1.6em !important;
+}
+
+.articleteaser_desktop {
+    font-style: italic !important;
+    line-height: 1.8em !important;
+    font-size: 2em !important;
+    border-style: none !important;
+}
+
+.date_desktop {
+    text-indent: 1em !important;
+    font-size: 1.5em!important;
+    font-style: italic !important;
+    color: black !important;
+    border-style: none !important;
+    margin-bottom: 1em !important;
+}
+
+.img_desktop {
+    height: auto;
+    max-height: 1000px;
+    width: auto;
+    max-width: 1000px;
+    border-style: none !important;
+}
+
+.rating_desktop {
+    margin-top: 1em !important;
+    margin-bottom: 1em !important;
+}
+
+.button_desktop {
+    background-color: #4582ec;
+    color: white;
+    margin-bottom: 2em !important;
+}
+
+.modal_rating_desktop {
+    margin-top: 2em !important;
+    margin-bottom: 2em !important;
+    margin-left: 1em !important;
+}
+
+.modal_header_desktop {
+    border-style: none !important;
+    text-align: center !important;
+}
+
+.modal_button_desktop_infeed {
+    background-color: #4582ec;
+    color: white;
+    margin-bottom: 2em !important;
+    margin-top: 1em !important;
+}
+
+.modal_button_desktop {
+    background-color: #4582ec;
+    color: white;
+    margin-bottom: 2em !important;
+    margin-top: 2em !important;
+    margin-left: 22% !important;
+}
+
+

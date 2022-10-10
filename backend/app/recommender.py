@@ -35,7 +35,14 @@ def select_article_set(user_id):
     if not open_sets:
         return 101
     else:
-        experiment_id = list(open_sets)[0]
+        if len(list(open_sets)) == 4:
+            experiment_id = 'article_set1'
+        if len(list(open_sets)) == 3:
+            experiment_id = 'article_set2'
+        if len(list(open_sets)) == 2:
+            experiment_id = 'article_set3'
+        if len(list(open_sets)) == 1:
+            experiment_id = 'article_set4'
         return experiment_id
 
 

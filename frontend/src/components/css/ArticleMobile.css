@@ -1,0 +1,73 @@
+.title_custom {
+    color: black !important;
+    margin-bottom: 1em!important;
+    font-size: 1.7em!important;
+    margin-top: 1em !important;
+    border-style: none !important;
+}
+
+.articletext {
+    margin-bottom: 1.2em !important;
+    border-style: none !important;
+    font-size: 1.4em !important;
+}
+
+.date_mobile {
+    text-indent: 1em !important;
+    font-size: 1.3em!important;
+    font-style: italic !important;
+    color: black !important;
+    border-style: none !important;
+    margin-bottom: 1em !important;
+}
+
+.articleteaser {
+    font-style: italic !important;
+    line-height: 1.5em !important;
+    font-size: 1.4em !important;
+    border-style: none !important;
+}
+
+.img {
+  height: auto;
+  max-height: 400px;
+  width: auto;
+  max-width: 400px;
+  border-style: none !important;
+}
+
+.rating {
+    margin-top: 1em !important;
+    margin-bottom: 1em !important;
+}
+
+.button {
+    background-color: #4582ec;
+    color: white;
+    margin-bottom: 2em !important;
+}
+
+.modal_rating {
+    margin-top: 1em !important;
+    margin-bottom: 1em !important;
+    margin-left: 1em !important;
+}
+
+.modal_header {
+    border-style: none !important;
+    text-align: center !important;
+}
+
+.modal_button {
+    background-color: #4582ec;
+    color: white;
+    margin-bottom: 1em !important;
+    margin-left: 22% !important;
+}
+
+.modal_button_mobile_infeed {
+    background-color: #4582ec;
+    color: white;
+    margin-bottom: 2em !important;
+    margin-top: 1em !important;
+}

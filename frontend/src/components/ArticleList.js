@@ -1,19 +1,21 @@
 /*
-    Article List compomemt that returns the list of articles for the recommender class
+    Article List component that returns the list of articles for the recommender class
 */
 
-import React from 'react';
-import ArticleDisplay from './ArticleDisplay_Card';
-import { Grid } from "semantic-ui-react"
+import React from "react";
+import ArticleDisplayMobile from "./ArticleDisplay_Card_Mobile";
+import ArticleDisplayDesktop from "./ArticleDisplay_Card_Desktop";
+import { Container } from "semantic-ui-react";
+import useWindowDimensions from "./hooks/UseWindowDimensions";
 
-const ArticleList = props => {
-    const articles = props.articles.map((article) => {
-        return <ArticleDisplay article={article} key={article.id} />
-    });
+export default function ArticleList(props) {
+  const { height, width } = useWindowDimensions();
+  const articles = props.articles.map((article) => {
+    if (width < 700) {
+      return <ArticleDisplayMobile article={article} key={article.id} />;
+    }
+    return <ArticleDisplayDesktop article={article} key={article.id} />;
+  });
 
-    return <Grid centered verticalAlign='middle'>
-            {articles}
-        </Grid>
-    };
-
-export default ArticleList;
+  return <Container fluid>{articles}</Container>;
+}
