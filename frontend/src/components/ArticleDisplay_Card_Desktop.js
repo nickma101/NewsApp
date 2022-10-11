@@ -86,11 +86,11 @@ export default function ArticleDisplay({ article }) {
           {article.title}
         </Card.Header>
         <Card.Description className="date_newsfeed_desktop" textAlign="left">
-          {article.date.substring(0, 10)}
+          vandaag gepubliceerd
         </Card.Description>
         <Card.Content className="text_newsfeed_desktop">
           <Image
-            size="huge"
+            size="big"
             centered
             label={getLabel(article)}
             src={article.image_url}

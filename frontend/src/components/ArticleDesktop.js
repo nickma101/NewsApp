@@ -36,6 +36,7 @@ export default function Article({ navigation }) {
   }, []);
 
   function alertUser(e) {
+    console.log("test");
     e.preventDefault();
     e.returnValue = "";
   }
@@ -139,7 +140,7 @@ export default function Article({ navigation }) {
               {article.title}
             </Card.Header>
             <Card.Meta textAlign="left" className="date_desktop">
-              05-10-2022
+              vandaag gepubliceerd
             </Card.Meta>
             <Image
               className="img_desktop"

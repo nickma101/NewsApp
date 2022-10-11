@@ -15,9 +15,10 @@ export default function Finish() {
   useEffect(() => {
     const user_id = get_id();
     const article_id = get_article_id();
+    const API = process.env.REACT_APP_NEWSAPP_API;
     const rating = new URLSearchParams(window.location.search).get("rating");
     axios
-      .get("http://localhost:5000/last_rating", {
+      .get(`${API == null ? "http://localhost:5000" : API}/last_rating`, {
         params: { user_id, article_id, rating },
       })
       .then((res) => setData(res.data[0]));

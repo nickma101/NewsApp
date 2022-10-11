@@ -1,16 +1,16 @@
 .title_custom_newsfeed_desktop {
-    font-size: 3.5em !important;
+    font-size: 3em !important;
     color: black !important;
     text-align: center !important;
     line-height: 1.2 !important;
     border-style: none !important;
     margin-bottom: 0.4em !important;
-    margin-top: 0.5em !important;
+    margin-top: 0.3em !important;
 }
 
 .date_newsfeed_desktop {
     text-indent: 1em !important;
-    font-size: 1.8em !important;
+    font-size: 1.4em !important;
     font-style: italic !important;
     color: black !important;
     border-style: none !important;
@@ -18,13 +18,13 @@
 
 .teaser_newsfeed_desktop {
     font-style: italic !important;
-    font-size: 1.7em !important;
+    font-size: 1.4em !important;
     color: black !important;
 }
 
 .text_newsfeed_desktop {
     font-size: 18px !important;
-    line-height: 1.6 !important;
+    line-height: 1.4 !important;
     border-style: none !important;
 }
 
@@ -33,3 +33,4 @@
     margin-bottom: 20px !important;
     margin-top: 10px !important;
 }
+

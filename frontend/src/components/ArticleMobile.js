@@ -139,7 +139,7 @@ export default function Article({ navigation }) {
               {article.title}
             </Card.Header>
             <Card.Description className="date_mobile" textAlign="left">
-              05-10-2022
+              vandaag gepubliceerd
             </Card.Description>
             <Image
               className="img"
