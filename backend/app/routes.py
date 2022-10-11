@@ -37,12 +37,15 @@ def get_recommendations():
     if int(user_id) not in users:
         user = User(user_id=user_id)
         db.session.add(user)
+    timestamp=datetime.utcnow()
+    print('users handled', timestamp)
     # get other relevant parameters
-    timestamp = datetime.utcnow()
     rated_article_id = request.args.get('article_id')
     rating = request.args.get('rating')
     if not rating:
         rating = 0
+    timestamp2 = datetime.utcnow()
+    print('got parameters', timestamp2)
     # call recommender functions
     experiment_id = recommender.select_article_set(user_id)
     if not experiment_id:
@@ -55,8 +58,12 @@ def get_recommendations():
                                              "label" + str(nudge_id),
                                              timestamp))
     db.session.add(nudge)
+    timestamp3=datetime.utcnow()
+    print('nudge determined', timestamp3)
     # retrieve and log articles
     articles = recommender.get_articles(experiment_id)
+    timestamp4=datetime.utcnow()
+    print('got articles from api with recommender.get articles',timestamp4)
     random.shuffle(articles)
     exposures = Exposures(article_set_id=experiment_id,
                           user_id=user_id,
@@ -66,6 +73,8 @@ def get_recommendations():
                                                         experiment_id,
                                                         str(timestamp)))
     db.session.add(exposures)
+    timestamp5=datetime.utcnow()
+    print('db.session.add(exposures completed)', timestamp5)
     for article in articles:
         article_id = article['id']
         article_section = article['section']
@@ -87,6 +96,8 @@ def get_recommendations():
                                                               str(timestamp),
                                                               position))
         db.session.add(article_position)
+    timestamp6=datetime.utcnow()
+    print('indiv. articles with position added to db', timestamp6)
     if int(rating) > 0:
         ratings = Ratings(article_id=rated_article_id,
                           user_id=user_id,
@@ -97,8 +108,14 @@ def get_recommendations():
                                                     str(timestamp)))
         db.session.add(ratings)
         db.session.commit()
+    timestamp7=datetime.utcnow()
+    print('rating added to db', timestamp7)
     db.session.commit()
+    timestamp8=datetime.utcnow()
+    print('all db commits added', timestamp8)
     return jsonify(articles)
+    timestamp9=datetime.utcnow()
+    print('articles returned', timestamp9)
 
 
 """
