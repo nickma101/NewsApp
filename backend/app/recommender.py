@@ -122,6 +122,25 @@ def get_article(user_id, article_id):
     user_id = user_id
     article_set = last_article_set(user_id)
     article_id = int(article_id)
+    filename = os.path.join(os.getcwd(), 'app/static', 'stimulus_material.json')
+    f = open(filename)
+    data = json.load(f)
+    articles = []
+    for article in data['results']:
+        if article['articleSet_int'] == str(experiment_id):
+            articles.append(article)
+        articles.append(article)
+    article = [a for a in articles if a['id'] == article_id]
+    if article:
+        return article
+    else:
+        return "No article was found"
+
+
+def get_article_from_amcat(user_id, article_id):
+    user_id = user_id
+    article_set = last_article_set(user_id)
+    article_id = int(article_id)
     articles = []
     settings = get_settings(article_set)
     for article in amcat.get_articles(project=settings['project'],
