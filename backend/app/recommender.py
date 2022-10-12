@@ -18,7 +18,8 @@ import os
 1) Retriving articles (the stuff below will go into the config file)
 """
 amcat = AmcatAPI("https://vu.amcat.nl", "NickMattis")
-experiment_ids = ['article_set4', 'article_set3', 'article_set2', 'article_set1']
+#experiment_ids = ['article_set4', 'article_set3', 'article_set2', 'article_set1']
+experiment_ids = [1, 2, 3, 4]
 nudge_ids = [1, 2, 3, 4] # Popularity, SelfActualisation, ModelCitizen & None - see ArticleDisplayCard
 
 
@@ -31,19 +32,19 @@ Output: Random selection from article_sets that were not yet seen by a user
 
 def select_article_set(user_id):
     exposures = list(Exposures.query.filter_by(user_id=user_id))
-    seen_ids = {exp.article_set_id for exp in exposures}
+    seen_ids = {int(exp.article_set_id) for exp in exposures}
     open_sets = set(experiment_ids) - seen_ids
     if not open_sets:
         return 101
     else:
         if len(list(open_sets)) == 4:
-            experiment_id = 'article_set1'
+            experiment_id = 1
         if len(list(open_sets)) == 3:
-            experiment_id = 'article_set2'
+            experiment_id = 2
         if len(list(open_sets)) == 2:
-            experiment_id = 'article_set3'
+            experiment_id = 3
         if len(list(open_sets)) == 1:
-            experiment_id = 'article_set4'
+            experiment_id = 4
         return experiment_id
 
 
@@ -77,8 +78,8 @@ def get_articles(experiment_id):
     f = open(filename)
     data = json.load(f)
     articles = []
-    for article in data['results']:
-        if article['articleSet_int'] == str(experiment_id):
+    for article in data:
+        if article['article_set'] == experiment_id:
             articles.append(article)
     return articles
 
@@ -126,9 +127,8 @@ def get_article(user_id, article_id):
     f = open(filename)
     data = json.load(f)
     articles = []
-    for article in data['results']:
-        if article['articleSet_int'] == str(article_set):
-            articles.append(article)
+    for article in data:
+        articles.append(article)
     article = [a for a in articles if a['id'] == article_id]
     if article:
         return article

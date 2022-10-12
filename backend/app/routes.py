@@ -37,15 +37,12 @@ def get_recommendations():
     if int(user_id) not in users:
         user = User(user_id=user_id)
         db.session.add(user)
-    timestamp = datetime.utcnow()
-    print('users handled', timestamp)
     # get other relevant parameters
     rated_article_id = request.args.get('article_id')
+    timestamp = datetime.utcnow()
     rating = request.args.get('rating')
     if not rating:
         rating = 0
-    timestamp2 = datetime.utcnow()
-    print('got parameters', timestamp2)
     # call recommender functions
     experiment_id = recommender.select_article_set(user_id)
     if not experiment_id:
@@ -58,12 +55,8 @@ def get_recommendations():
                                              "label" + str(nudge_id),
                                              timestamp))
     db.session.add(nudge)
-    timestamp3=datetime.utcnow()
-    print('nudge determined', timestamp3)
     # retrieve and log articles
-    articles = recommender.get_articles_from_amcat(experiment_id)
-    timestamp4=datetime.utcnow()
-    print('got articles from api with recommender.get articles',timestamp4)
+    articles = recommender.get_articles(experiment_id)
     random.shuffle(articles)
     exposures = Exposures(article_set_id=experiment_id,
                           user_id=user_id,
@@ -73,14 +66,13 @@ def get_recommendations():
                                                         experiment_id,
                                                         str(timestamp)))
     db.session.add(exposures)
-    timestamp5=datetime.utcnow()
-    print('db.session.add(exposures completed)', timestamp5)
     for article in articles:
         article_id = article['id']
         article_section = article['section']
         article_title = article['title']
         position = [i for i, d in enumerate(articles) if article_id in d.values()][0]
         user_id = user_id
+        timestamp = datetime.utcnow()
         article_position = Articles(article_id=article_id,
                                     user_id=user_id,
                                     exposure_id="{}/{}/{}".format(user_id,
@@ -92,12 +84,8 @@ def get_recommendations():
                                     nudge_id=nudge_id,
                                     primary="{}/{}/{}".format(user_id,
                                                               article_id,
-                                                              experiment_id,
-                                                              str(timestamp),
-                                                              position))
+                                                              str(timestamp)))
         db.session.add(article_position)
-    timestamp6=datetime.utcnow()
-    print('indiv. articles with position added to db', timestamp6)
     if int(rating) > 0:
         ratings = Ratings(article_id=rated_article_id,
                           user_id=user_id,
@@ -108,14 +96,8 @@ def get_recommendations():
                                                     str(timestamp)))
         db.session.add(ratings)
         db.session.commit()
-    timestamp7=datetime.utcnow()
-    print('rating added to db', timestamp7)
     db.session.commit()
-    timestamp8=datetime.utcnow()
-    print('all db commits added', timestamp8)
     return jsonify(articles)
-    timestamp9=datetime.utcnow()
-    print('articles returned', timestamp9)
 
 
 """
@@ -137,7 +119,6 @@ def show_article():
     if not user_id:
         raise Exception("No user id given")
     article_id = request.args.get('article_id')
-    print(article_id)
     if not article_id:
         raise Exception("No article id given")
     else:
@@ -153,7 +134,7 @@ def show_article():
                                                             str(timestamp)))
         db.session.add(article_seen)
         db.session.commit()
-    return jsonify(recommender.get_article_from_amcat(user_id, article_id))
+    return jsonify(recommender.get_article(user_id, article_id))
 
 
 """
@@ -186,7 +167,7 @@ def rounds_left():
     if not user_id:
         raise Exception("No user id given")
     exposures = list(Exposures.query.filter_by(user_id=user_id))
-    seen_ids = {exp.article_set_id for exp in exposures}
+    seen_ids = {int(exp.article_set_id) for exp in exposures}
     open_sets = set(recommender.experiment_ids) - seen_ids
     if not open_sets:
         return jsonify(0)
