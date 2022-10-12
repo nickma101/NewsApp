@@ -61,7 +61,7 @@ def get_recommendations():
     timestamp3=datetime.utcnow()
     print('nudge determined', timestamp3)
     # retrieve and log articles
-    articles = recommender.get_articles(experiment_id)
+    articles = recommender.get_articles_from_amcat(experiment_id)
     timestamp4=datetime.utcnow()
     print('got articles from api with recommender.get articles',timestamp4)
     random.shuffle(articles)
@@ -153,7 +153,7 @@ def show_article():
                                                             str(timestamp)))
         db.session.add(article_seen)
         db.session.commit()
-    return jsonify(recommender.get_article(user_id, article_id))
+    return jsonify(recommender.get_article_from_amcat(user_id, article_id))
 
 
 """

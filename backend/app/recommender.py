@@ -127,9 +127,8 @@ def get_article(user_id, article_id):
     data = json.load(f)
     articles = []
     for article in data['results']:
-        if article['articleSet_int'] == str(experiment_id):
+        if article['articleSet_int'] == str(article_set):
             articles.append(article)
-        articles.append(article)
     article = [a for a in articles if a['id'] == article_id]
     if article:
         return article

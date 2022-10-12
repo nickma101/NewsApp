@@ -25,6 +25,7 @@ export default function Article({ navigation }) {
   const [rounds, setRounds] = useState({});
   const [rating, updateRating] = useState();
   const article = data;
+  console.log(article);
   const text = ReactHtmlParser(article.text);
 
   //ask user to stay on page when they refresh
