@@ -37,7 +37,7 @@ def get_recommendations():
     if int(user_id) not in users:
         user = User(user_id=user_id)
         db.session.add(user)
-    timestamp=datetime.utcnow()
+    timestamp = datetime.utcnow()
     print('users handled', timestamp)
     # get other relevant parameters
     rated_article_id = request.args.get('article_id')

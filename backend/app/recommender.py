@@ -11,7 +11,8 @@ from app.database import Exposures, Nudges
 from amcatclient import AmcatAPI
 from app.experimental_settings import get_settings
 import random
-
+import json
+import os
 
 """
 1) Retriving articles (the stuff below will go into the config file)
@@ -36,13 +37,13 @@ def select_article_set(user_id):
         return 101
     else:
         if len(list(open_sets)) == 4:
-            experiment_id = 'article_set1'
+            experiment_id = 1
         if len(list(open_sets)) == 3:
-            experiment_id = 'article_set2'
+            experiment_id = 2
         if len(list(open_sets)) == 2:
-            experiment_id = 'article_set3'
+            experiment_id = 3
         if len(list(open_sets)) == 1:
-            experiment_id = 'article_set4'
+            experiment_id = 4
         return experiment_id
 
 
@@ -72,6 +73,17 @@ Output: List of articles that matches the experiment id that is to be shown
 
 
 def get_articles(experiment_id):
+    filename = os.path.join(os.getcwd(), 'app/static', 'stimulus_material.json')
+    f = open(filename)
+    data = json.load(f)
+    articles = []
+    for article in data['results']:
+        if article['articleSet_int'] == str(experiment_id):
+            articles.append(article)
+    return articles
+
+
+def get_articles_from_amcat(experiment_id):
     articles = []
     settings = get_settings(experiment_id)
     for article in amcat.get_articles(project=settings['project'],

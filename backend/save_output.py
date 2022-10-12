@@ -33,4 +33,4 @@ Ratings = sql_query_to_csv(query4)
 Nudges = sql_query_to_csv(query5)
 User = sql_query_to_csv(query6)
 
-print(Exposures)
+print(Articles)
