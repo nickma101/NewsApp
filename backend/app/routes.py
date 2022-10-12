@@ -72,7 +72,6 @@ def get_recommendations():
         article_title = article['title']
         position = [i for i, d in enumerate(articles) if article_id in d.values()][0]
         user_id = user_id
-        timestamp = datetime.utcnow()
         article_position = Articles(article_id=article_id,
                                     user_id=user_id,
                                     exposure_id="{}/{}/{}".format(user_id,
