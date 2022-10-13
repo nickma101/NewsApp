@@ -65,12 +65,15 @@ def get_recommendations():
                           exposure_id="{}/{}/{}".format(user_id,
                                                         experiment_id,
                                                         str(timestamp)))
+    ids = enumerate(articles)
     db.session.add(exposures)
+    counter = 0
     for article in articles:
         article_id = article['id']
         article_section = article['section']
         article_title = article['title']
-        position = [i for i, d in enumerate(articles) if article_id in d.values()][0]
+        position = counter
+        counter += 1
         user_id = user_id
         article_position = Articles(article_id=article_id,
                                     user_id=user_id,
