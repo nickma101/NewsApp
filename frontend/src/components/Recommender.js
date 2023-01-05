@@ -45,7 +45,7 @@ class Recommender extends React.Component {
 
   render() {
     const id = new URLSearchParams(window.location.search).get("id");
-    if (id == null) return <div>Please provide an id </div>;
+    if (id == null) return <div>Please provide an id here</div>;
     return <ArticleList articles={this.state.articles} />;
   }
 }
