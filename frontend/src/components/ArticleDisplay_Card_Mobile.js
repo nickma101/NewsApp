@@ -12,6 +12,8 @@ import SelfActualisationNudge from "./Nudges/SelfActualisationNudgeMobile";
 import ModelCitizenNudge from "./Nudges/ModelCitizenNudgeMobile";
 import useWindowDimensions from "./hooks/UseWindowDimensions";
 import get_id from "./hooks/GetId";
+import get_cid from "./hooks/GetCid";
+import get_pid from "./hooks/GetPid";
 
 export default function ArticleDisplay({ article }) {
   const [data, setData] = useState({});
@@ -67,6 +69,8 @@ export default function ArticleDisplay({ article }) {
   const navigateToArticle = (article) => {
     const params = {
       id: get_id(),
+      cid: get_cid(),
+      pid: get_pid(),
       article_id: get_article_id(),
       title: get_article_title(),
       section: get_article_section(),

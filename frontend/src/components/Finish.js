@@ -7,6 +7,8 @@ import { Container, Header, Button, Segment } from "semantic-ui-react";
 import axios from "axios";
 import "./css/Finish.css";
 import get_id from "./hooks/GetId";
+import get_pid from "./hooks/GetPid";
+import get_cid from "./hooks/GetCid";
 import get_article_id from "./hooks/GetArticleId";
 
 export default function Finish() {
@@ -14,12 +16,14 @@ export default function Finish() {
 
   useEffect(() => {
     const user_id = get_id();
+    const pid = get_pid();
+    const cid = get_cid();
     const article_id = get_article_id();
     const API = process.env.REACT_APP_NEWSAPP_API;
     const rating = new URLSearchParams(window.location.search).get("rating");
     axios
       .get(`${API == null ? "http://localhost:5000" : API}/last_rating`, {
-        params: { user_id, article_id, rating },
+        params: { user_id, article_id, rating, pid, cid },
       })
       .then((res) => setData(res.data[0]));
   }, []);
@@ -27,8 +31,10 @@ export default function Finish() {
   //on-click function that takes the user back to the 2nd qualtrics survey
   function handleClick() {
     const user_id = get_id();
+    const pid = get_pid();
+    const cid = get_cid();
     const href1 = "https://vuass.eu.qualtrics.com";
-    const href2 = `/jfe/form/SV_3CB4AtxbiyNgSgK?user_id=${user_id}`;
+    const href2 = `/jfe/form/SV_3CB4AtxbiyNgSgK?user_id=${user_id}&cid=${cid}&pid=${pid}`;
     const link = href1 + href2;
     window.location = link;
   }

@@ -18,6 +18,8 @@ import ReactHtmlParser from "react-html-parser";
 import useWindowDimensions from "./hooks/UseWindowDimensions";
 import get_id from "./hooks/GetId";
 import get_article_id from "./hooks/GetArticleId";
+import get_pid from "./hooks/GetPid";
+import get_cid from "./hooks/GetCid";
 
 export default function Article({ navigation }) {
   const [data, setData] = useState({});
@@ -56,6 +58,8 @@ export default function Article({ navigation }) {
   //retrieving an individual article from API
   useEffect(() => {
     const user_id = new URLSearchParams(window.location.search).get("id");
+    const pid = get_pid();
+    const cid = get_cid();
     const article_id = new URLSearchParams(window.location.search).get(
       "article_id"
     );
@@ -64,7 +68,7 @@ export default function Article({ navigation }) {
     const API = process.env.REACT_APP_NEWSAPP_API;
     axios
       .get(`${API == null ? "http://localhost:5000" : API}/article`, {
-        params: { user_id, article_id, section, title },
+        params: { user_id, article_id, section, title, cid, pid },
       })
       .then((res) => setData(res.data[0]));
   }, []);
@@ -74,10 +78,12 @@ export default function Article({ navigation }) {
   //retrieving left open rounds from APU
   useEffect(() => {
     const user_id = get_id();
+    const pid = get_pid();
+    const cid = get_cid();
     const API = process.env.REACT_APP_NEWSAPP_API;
     axios
       .get(`${API == null ? "http://localhost:5000" : API}/finish`, {
-        params: { user_id },
+        params: { user_id, pid, cid },
       })
       .then((res) => setRounds(res.data));
   }, []);
@@ -107,6 +113,8 @@ export default function Article({ navigation }) {
   function handleLastClick(e) {
     const params = {
       id: get_id(),
+      cid: get_cid(),
+      pid: get_pid(),
       article_id: get_article_id(),
       rating: rating,
     };
